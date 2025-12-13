@@ -1,7 +1,6 @@
-# 🏥 DoctorHouse ---
+# 🏥 DoctorHouse --- 
 
 ## Épica
-
 Digitalización y Trazabilidad de la Atención Médica Domiciliaria (MVP)
 
 Descripción: Desarrollar una plataforma web centralizada que permita a las IPS gestionar eficientemente el ciclo
@@ -23,7 +22,6 @@ para que pueda acceder al sistema con permisos adecuados desde el primer día.
 ### ✔️ Criterios de Aceptación
 
 1. Formulario único de registro
-
 - Existe un solo formulario para crear usuarios de cualquier rol.
 - El formulario incluye un dropdown obligatorio para seleccionar: Paciente, Doctor o Analista.
 - Los campos obligatorios deben estar claramente marcados.
@@ -35,7 +33,6 @@ para que pueda acceder al sistema con permisos adecuados desde el primer día.
 - El correo también debe ser único (opcional, pero recomendado).
 
 3. Contraseña por defecto + Cambio obligatorio
-
 - Al crear el usuario, el sistema genera una contraseña por defecto segura.
 - En el primer inicio de sesión, el usuario es redirigido automáticamente a la pantalla de Cambio de Contraseña.
 - No puede acceder al sistema sin haber cambiado su contraseña.
@@ -46,7 +43,6 @@ para que pueda acceder al sistema con permisos adecuados desde el primer día.
 - role = DOCTOR | PATIENT | ANALYST
 
 5. Seguridad y Accesos
-
 - Un Paciente no puede acceder a pantallas exclusivas del Doctor (ej. lista de solicitudes, cierre de visita).
 - Un Doctor no puede acceder a pantallas administrativas del Analista.
 - El sistema valida los permisos mediante middleware/guardia antes de cargar cualquier vista o endpoint.
@@ -68,9 +64,9 @@ para que pueda acceder al sistema con permisos adecuados desde el primer día.
 - Devolver mensaje de confirmación y datos básicos del usuario.
 - Implementar middleware/guard para verificar role.
 - Configurar rutas y permisos:
-  /doctor/* → Solo DOCTOR
-  /patient/* → Solo PATIENT
-  /admin/* → Solo ANALYST
+/doctor/* → Solo DOCTOR
+/patient/* → Solo PATIENT
+/admin/* → Solo ANALYST
 - Implementar política de primer login → redirect obligatorio a /change-password.
 
 ### Tareas front
@@ -83,7 +79,6 @@ para que pueda acceder al sistema con permisos adecuados desde el primer día.
 - Implementar lógica “bloqueo de navegación hasta cambiar contraseña”.
 
 ### Test
-
 - Caso de prueba: registro exitoso.
 - Caso de prueba: documento duplicado.
 - Caso de prueba: acceso denegado a vistas prohibidas por rol.
@@ -95,19 +90,15 @@ para que pueda acceder al sistema con permisos adecuados desde el primer día.
 
 ## HU-02: Agendamiento de Visita Domiciliaria (Core)
 
-Como paciente, quiero asignar una visita domiciliaria a un médico específico en una fecha y hora,
+Como paciente, quiero asignar una visita domiciliaria a un médico específico en una fecha y hora, 
 para organizar la logística del día y asegurar la atención.
 
 ### Criterios de Aceptación
-
 1. Validación de Disponibilidad
-
 - La plataforma no permite agendar si el médico ya tiene una cita dentro del mismo rango horario.
 - La duración por defecto de una cita es de 45 minutos.
-- Para evitar complejidad, se considera disponibilidad libre si: (nueva_cita_inicio >= cita_existente_fin) OR (
-  nueva_cita_fin <= cita_existente_inicio)
-- No se hace cálculo de desplazamiento real; opcionalmente puede ampliarse un “buffer” fijo (ej. +15 min) si el negocio
-  lo requiere.
+- Para evitar complejidad, se considera disponibilidad libre si: (nueva_cita_inicio >= cita_existente_fin) OR (nueva_cita_fin <= cita_existente_inicio)
+- No se hace cálculo de desplazamiento real; opcionalmente puede ampliarse un “buffer” fijo (ej. +15 min) si el negocio lo requiere.
 
 2. Validación de Estado del Médico
 
@@ -115,25 +106,21 @@ para organizar la logística del día y asegurar la atención.
 - Intentos manuales vía API deben recibir error: `400 - El médico seleccionado no está activo.`
 
 3. Creación del Registro
-
 - Al agendarse, la cita debe crearse con estado: `PROGRAMADA`
 
 4. Interfaz Web (Front - Analista / Paciente)
-
 - Debe existir un dropdown con todos los médicos activos disponibles.
 - Al seleccionar un médico + un día, el sistema muestra su disponibilidad (citas ocupadas y bloques libres).
 - El calendario debe permitir elegir: Día, Hora disponible según cálculo del backend
 - La UI debe impedir seleccionar horas que ya estén ocupadas.
 
 5. Reglas simples de duración (sin cálculos complejos)
-
 - Duración fija: 45 min.
 - Opción: permitir extender a 60 min dependiendo del tipo de servicio (parametrizable).
 - Si el negocio quiere simular desplazamientos, se agrega un buffer fijo configurable (ej. 15 min).
 
 ### Tareas back
-
-- Crear entidad Appointment con campos: id, patientId, doctorId, startAt, endAt, duration, appointmentStatus.
+- Crear entidad Appointment con campos: id, patientId, doctorId, startAt, endAt, duration, status.
 - Crear enum AppointmentStatus { PROGRAMADA, CANCELADA, FINALIZADA }.
 - Asegurar integridad con llaves foráneas hacia User.
 - Crear puerto AppointmentRepository.
@@ -155,7 +142,6 @@ para organizar la logística del día y asegurar la atención.
 - Retornar una lista de horas disponibles.
 
 ### Tareas front
-
 - Crear pantalla “Agendar visita”.
 - Dropdown con médicos activos.
 - Calendario para seleccionar día.
@@ -167,7 +153,6 @@ para organizar la logística del día y asegurar la atención.
 - Manejar errores de disponibilidad.
 
 ### Test
-
 - Agendar cita válida → debe crearse con estado PROGRAMADA.
 - Intentar agendar cita cuando ya existe una en ese rango → debe rechazarla.
 - Intentar agendar cita a médico INACTIVO → error.
@@ -180,9 +165,7 @@ Como médico domiciliario, quiero ver mi lista de visitas asignadas para el día
 para saber a dónde debo dirigirme y organizar mi ruta del día.
 
 ### ✔️ Criterios de Aceptación
-
 1. Cada cita debe mostrar:
-
 - Hora de inicio (formato 24h o 12h según definición futura).
 - Nombre del paciente.
 - Dirección del paciente.
@@ -190,29 +173,24 @@ para saber a dónde debo dirigirme y organizar mi ruta del día.
 - Estado de la cita (solo lectura), que será PROGRAMADA o FINALIZADA según aplique.
 
 2. Ordenamiento
-
 - La lista debe estar ordenada por hora de inicio ascendente.
 - Si hay dos citas con la misma hora (caso extremo), se ordenan por hora de creación.
 
 3. Filtro automático
-
 - La agenda debe mostrar solo las citas del día actual.
 - El médico no debe ver citas de otros médicos.
 - (Opcional futuro) Filtrar por fecha manualmente, pero por ahora solo “Hoy”.
 
 4. Interfaz
-
 - Debe ser una interfaz limpia, simple y de lectura rápida.
 - Cada cita debe mostrarse como una tarjeta o fila compacta.
 - Debe mostrarse un mensaje si no hay citas asignadas para hoy.
 
 5. Seguridad
-
 - Solo usuarios con role = DOCTOR pueden acceder a esta vista.
 - Intentos de acceso como Paciente o Analista deben recibir 403 - Acceso no autorizado.
 
 ### Tareas Back
-
 - Crear caso de uso GetTodayRouteUseCase.
 - Recibir doctorId (desde token autenticado).
 - Consultar citas del día actual (startAt entre 00:00 y 23:59).
@@ -225,7 +203,6 @@ para saber a dónde debo dirigirme y organizar mi ruta del día.
 - Retornar lista de cita(s) con paciente y dirección.
 
 ### Tareas front
-
 - Crear página /doctor/my-route.
 - Llamar al endpoint GET /appointments/my-route/today.
 - Mostrar tarjetas ordenadas por hora.
@@ -236,7 +213,6 @@ para saber a dónde debo dirigirme y organizar mi ruta del día.
 - Mostrar loading state mientras carga.
 
 ### Test
-
 - Verifica que un médico con citas vea su lista ordenada.
 - Verifica que un médico sin citas vea mensaje vacío.
 - Verifica que un Paciente o Analista no pueda acceder (403).
@@ -246,29 +222,23 @@ para saber a dónde debo dirigirme y organizar mi ruta del día.
 ------------------------------------------------------------------------
 
 # Feature 3: Atención médica
-
 ## HU-04: Registro de Evolución Clínica (Atención)
-
 Como médico domiciliario, quiero registrar hallazgos médicos, signos vitales y la prescripción en una cita asignada,
 para dejar constancia legal y clínica de la atención prestada.
 
 ### ✔️ Criterios de Aceptación
-
 1. Restricciones
-
 - Solo se puede registrar información clínica en citas cuyo estado sea:
-  PROGRAMADA
-  EN_PROCESO
+PROGRAMADA
+EN_PROCESO
 - Si se intenta registrar evolución en una cita FINALIZADA o CANCELADA →
-  Debe devolver error 400: "La cita no permite registrar evolución clínica."
+Debe devolver error 400: "La cita no permite registrar evolución clínica."
 
-2. Al guardar la evolución
-
+2. Al guardar la evolución 
 - La cita cambia automáticamente a: FINALIZADA
 - Se registra completedAt (fecha/hora de cierre de la atención).
 
 3. La evolución debe incluir campos requeridos:
-
 - Tensión arterial (ej. 120/80)
 - Frecuencia cardíaca (latidos por minuto)
 - Diagnóstico (texto libre)
@@ -276,7 +246,6 @@ para dejar constancia legal y clínica de la atención prestada.
 - Opcional futuro: peso, saturación O₂, temperatura, lista de medicamentos, firma digital.
 
 4. Seguridad y permisos
-
 - Solo usuarios con rol DOCTOR pueden registrar evolución.
 - Un médico solo puede registrar evolución en sus propias citas.
 
@@ -285,7 +254,6 @@ para dejar constancia legal y clínica de la atención prestada.
 Debe persistirse toda la información en una entidad separada de la cita:
 
 AppointmentEvolution
-
 - evolutionId
 - appointmentId
 - doctorId
@@ -308,7 +276,6 @@ Cada evolución debe generar un registro 100% trazable:
 No debe permitir eliminar evoluciones (solo añadir, nunca borrar).
 
 ### Tareas back
-
 - Crear entidad AppointmentEvolution
 - Crear repositorio y puerto EvolutionRepository
 - Agregar campo completedAt a Appointment
@@ -327,7 +294,6 @@ No debe permitir eliminar evoluciones (solo añadir, nunca borrar).
 - Devolver DTO con evolución guardada + cita actualizada
 
 ### Tareas front
-
 - Pantalla /doctor/appointment/:id/atencion
 - Mostrar datos del paciente y una breve cabecera (hora, dirección)
 - Formulario con: Tensión arterial, Frecuencia cardíaca, Diagnóstico, Observaciones, Botón “Guardar y Finalizar”
@@ -336,7 +302,6 @@ No debe permitir eliminar evoluciones (solo añadir, nunca borrar).
 - Redirigir a “Mi Ruta” o a un mensaje: “Atención finalizada exitosamente”
 
 ### Test
-
 - Registrar evolución correcta → cita pasa a FINALIZADA
 - Intentar registrar evolución en cita finalizada → error
 - Intentar registrar evolución en cita de otro médico → error
@@ -344,52 +309,46 @@ No debe permitir eliminar evoluciones (solo añadir, nunca borrar).
 - Guardado exitoso crea registro en base de datos
 
 ## HU-05: Generación de Resumen de Atención (PDF)
-
 Como médico o paciente, quiero descargar un PDF con el resumen de la visita al finalizar la atención,
 para tener un soporte físico o digital de la consulta realizada.
 
 ✔️ Criterios de Aceptación
-
 1. Disparador automático. Cuando la cita cambia a estado FINALIZADA
-   el sistema debe generar automáticamente un PDF basado en una plantilla simple.
+el sistema debe generar automáticamente un PDF basado en una plantilla simple.
 
 2. Plantilla del PDF. El PDF debe contener como mínimo:
-
 - Logo de la empresa (cabecera).
-- Datos del paciente: Nombre completo, Documento, Dirección,
+- Datos del paciente: Nombre completo, Documento, Dirección, 
 - Datos del médico: Nombre, Registro profesional (si aplica)
-- Datos de la cita: Fecha y hora de la atención, Estado FINALIZADA,
+- Datos de la cita: Fecha y hora de la atención, Estado FINALIZADA, 
 - Resumen clínico: Signos vitales registrados, Diagnóstico
 - Observaciones
 - Pie de página con información legal mínima.
 - El diseño debe ser simple, legible y de una sola página siempre que sea posible.
 
 3. Descarga manual
-
 - El médico y el paciente deben tener la opción de descargar el PDF desde su panel.
 - No se requiere envío por correo en esta HU (puede ser otra HU si se quiere).
 
 4. Persistencia del archivo
-   El sistema debe almacenar el PDF generado, guardando:
+El sistema debe almacenar el PDF generado, guardando:
 
 - appointmentId
 - pdfUrl (ruta o bucket)
 - generatedAt
 
 5. Seguridad
-   Solo pueden acceder al PDF:
-
+Solo pueden acceder al PDF:
 - El médico asignado
 - El paciente de la cita
 - Analistas/autorizados (rol administrativo)
 
 6. Auditoría
-   Cada generación de PDF debe generar un registro de auditoría:
+Cada generación de PDF debe generar un registro de auditoría:
 
 - “PDF generado para cita X por evento de FINALIZACIÓN”
 
 ### Tareas back
-
 - Crear GenerateAppointmentSummaryPDFUseCase.
 - Recibir appointmentId.
 - Obtener evolución clínica asociada.
@@ -407,7 +366,6 @@ para tener un soporte físico o digital de la consulta realizada.
 - Retornar el PDF directamente o el enlace temporal.
 
 ### Tareas Front
-
 - Agregar botón “Descargar Resumen en PDF” en Vista del Médico → historial / detalle de cita
 - Vista del Paciente → historial / mis citas
 - Al hacer clic → llamar a GET /appointments/{id}/pdf.
