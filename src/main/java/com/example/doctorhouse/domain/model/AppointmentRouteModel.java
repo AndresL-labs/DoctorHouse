@@ -1,61 +1,36 @@
 package com.example.doctorhouse.domain.model;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.time.LocalTime;
 
-/**
- * Modelo de dominio mínimo que representa la información necesaria
- * para la "Mi Ruta" del médico.
- */
 public class AppointmentRouteModel {
 
-    private UUID appointmentId;
-    private UUID patientId;
-    private String patientName;
+    private Integer appointmentId;
+    private LocalTime startTime;
+    private String patientFullName;
     private String patientAddress;
-    private String patientCondition; // nullable
-    private LocalDateTime startAt;
-    private LocalDateTime createdAt;
-    private String status; // PROGRAMADA | FINALIZADA
+    private String patientCondition;
+    private String status;
 
-    public AppointmentRouteModel() {}
-
-    // Constructor completo
-    public AppointmentRouteModel(UUID appointmentId, UUID patientId, String patientName,
-                                 String patientAddress, String patientCondition,
-                                 LocalDateTime startAt, LocalDateTime createdAt, String status) {
+    public AppointmentRouteModel(
+            Integer appointmentId,
+            LocalTime startTime,
+            String patientFullName,
+            String patientAddress,
+            String patientCondition,
+            String status
+    ) {
         this.appointmentId = appointmentId;
-        this.patientId = patientId;
-        this.patientName = patientName;
+        this.startTime = startTime;
+        this.patientFullName = patientFullName;
         this.patientAddress = patientAddress;
         this.patientCondition = patientCondition;
-        this.startAt = startAt;
-        this.createdAt = createdAt;
         this.status = status;
     }
 
-    // Getters & Setters
-    public UUID getAppointmentId() { return appointmentId; }
-    public void setAppointmentId(UUID appointmentId) { this.appointmentId = appointmentId; }
-
-    public UUID getPatientId() { return patientId; }
-    public void setPatientId(UUID patientId) { this.patientId = patientId; }
-
-    public String getPatientName() { return patientName; }
-    public void setPatientName(String patientName) { this.patientName = patientName; }
-
+    public Integer getAppointmentId() { return appointmentId; }
+    public LocalTime getStartTime() { return startTime; }
+    public String getPatientFullName() { return patientFullName; }
     public String getPatientAddress() { return patientAddress; }
-    public void setPatientAddress(String patientAddress) { this.patientAddress = patientAddress; }
-
     public String getPatientCondition() { return patientCondition; }
-    public void setPatientCondition(String patientCondition) { this.patientCondition = patientCondition; }
-
-    public LocalDateTime getStartAt() { return startAt; }
-    public void setStartAt(LocalDateTime startAt) { this.startAt = startAt; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-
     public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
 }
