@@ -1,62 +1,56 @@
-package com.example.doctorhouse.domain.model;
+package com.example.doctorhouse.infraestructure.adapter.out.persistence.entity;
 
 import com.example.doctorhouse.domain.model.enums.AppointmentStatus;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Optional;
 
-/**
- * Modelo de dominio puro (sin anotaciones)
- */
-public class AppointmentModel {
+@Entity
+@Table(name = "appointments")
+//Representación de la tabla en la base de datos
+public class AppointmentEntity {
 
-    public static final int DEFAULT_DURATION_MINUTES = 45;
-    public static final int BUFFER_TIME_MINUTES = 60;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Long idAppointment;
+    @Column(nullable = false)
     private Long patientId;
+
+    @Column(nullable = false)
     private Long doctorId;
+
+    @Column(nullable = false)
     private LocalDateTime appointmentDateTime;
+
+    @Column(nullable = false)
     private LocalTime startAt;
-    private Optional<LocalTime> endAt;
+
+    @Column(nullable = false)
+    private LocalTime endAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AppointmentStatus status;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
-    private Optional<LocalDateTime> updatedAt;
 
-    public AppointmentModel() {
-        this.endAt = Optional.empty();
-        this.updatedAt = Optional.empty();
-    }
+    private LocalDateTime updatedAt;
 
-    public AppointmentModel(
-            Long idAppointment,
-            Long patientId,
-            Long doctorId,
-            LocalDateTime appointmentDateTime,
-            LocalTime startAt,
-            AppointmentStatus status,
-            LocalDateTime createdAt
-    ) {
-        this.idAppointment = idAppointment;
-        this.patientId = patientId;
-        this.doctorId = doctorId;
-        this.appointmentDateTime = appointmentDateTime;
-        this.startAt = startAt;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.endAt = Optional.empty();
-        this.updatedAt = Optional.empty();
+    public AppointmentEntity() {
     }
 
     // ===== GETTERS & SETTERS =====
 
-    public Long getIdAppointment() {
-        return idAppointment;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdAppointment(Long idAppointment) {
-        this.idAppointment = idAppointment;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getPatientId() {
@@ -91,12 +85,12 @@ public class AppointmentModel {
         this.startAt = startAt;
     }
 
-    public Optional<LocalTime> getEndAt() {
+    public LocalTime getEndAt() {
         return endAt;
     }
 
     public void setEndAt(LocalTime endAt) {
-        this.endAt = Optional.ofNullable(endAt);
+        this.endAt = endAt;
     }
 
     public AppointmentStatus getStatus() {
@@ -115,11 +109,11 @@ public class AppointmentModel {
         this.createdAt = createdAt;
     }
 
-    public Optional<LocalDateTime> getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = Optional.ofNullable(updatedAt);
+        this.updatedAt = updatedAt;
     }
 }

@@ -1,5 +1,5 @@
 package com.example.doctorhouse.domain.model.enums;
 
-public enum Status {
+public enum AppointmentStatus {
     SCHEDULED, CANCELED, COMPLETED
 }
