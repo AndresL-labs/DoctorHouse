@@ -1,119 +1,51 @@
 package com.example.doctorhouse.infraestructure.adapter.out.persistence.entity;
 
 import com.example.doctorhouse.domain.model.enums.AppointmentStatus;
-
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDate; // OJO: Cambiado de LocalDateTime a LocalDate
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "appointments")
-//Representación de la tabla en la base de datos
+@Getter             // Genera todos los Getters
+@Setter             // Genera todos los Setters
+@NoArgsConstructor  // Genera constructor vacío (Obligatorio para JPA)
+@AllArgsConstructor // Genera constructor con todos los argumentos (Útil)
 public class AppointmentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "patient_id", nullable = false)
     private Long patientId;
 
-    @Column(nullable = false)
+    @Column(name = "doctor_id", nullable = false)
     private Long doctorId;
 
-    @Column(nullable = false)
-    private LocalDateTime appointmentDateTime;
+    // CORRECCIÓN CRÍTICA: Cambiado a LocalDate
+    @Column(name = "appointment_date", nullable = false)
+    private LocalDate appointmentDate;
 
-    @Column(nullable = false)
+    @Column(name = "start_time", nullable = false)
     private LocalTime startAt;
 
-    @Column(nullable = false)
+    @Column(name = "end_time")
     private LocalTime endAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AppointmentStatus status;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
-
-    public AppointmentEntity() {
-    }
-
-    // ===== GETTERS & SETTERS =====
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Long patientId) {
-        this.patientId = patientId;
-    }
-
-    public Long getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(Long doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public LocalDateTime getAppointmentDateTime() {
-        return appointmentDateTime;
-    }
-
-    public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {
-        this.appointmentDateTime = appointmentDateTime;
-    }
-
-    public LocalTime getStartAt() {
-        return startAt;
-    }
-
-    public void setStartAt(LocalTime startAt) {
-        this.startAt = startAt;
-    }
-
-    public LocalTime getEndAt() {
-        return endAt;
-    }
-
-    public void setEndAt(LocalTime endAt) {
-        this.endAt = endAt;
-    }
-
-    public AppointmentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AppointmentStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    // Ya no necesitas escribir Getters, Setters ni Constructores manualmente.
 }

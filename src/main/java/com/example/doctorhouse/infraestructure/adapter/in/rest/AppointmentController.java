@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @RestController
 @RequestMapping("/appointments")
@@ -46,7 +45,7 @@ public class AppointmentController {
         AppointmentModel model = new AppointmentModel();
         model.setPatientId(request.getPatientId());
         model.setDoctorId(request.getDoctorId());
-        model.setAppointmentDateTime(request.getStartDateTime());
+        model.setAppointmentDateTime(request.getStartDateTime().toLocalDate());
         model.setStartAt(request.getStartDateTime().toLocalTime());
         model.setStatus(AppointmentStatus.SCHEDULED);
         model.setCreatedAt(LocalDateTime.now());
@@ -64,7 +63,7 @@ public class AppointmentController {
 
 
     @PostMapping("/schedule")
-    public ResponseEntity<AppointmentModel> schedule(
+    public ResponseEntity<AppointmentResponseDTO> schedule(
             @RequestParam Long patientId,
             @RequestParam Long doctorId,
             @RequestParam String date,
@@ -77,13 +76,16 @@ public class AppointmentController {
                         LocalTime.parse(time)
                 );
 
-        return ResponseEntity.ok(
-                scheduleAppointmentUseCase.execute(
-                        patientId,
-                        doctorId,
-                        startDateTime
-                )
+        AppointmentModel scheduledAppointment = scheduleAppointmentUseCase.execute(
+                patientId,
+                doctorId,
+                startDateTime
         );
+
+        AppointmentResponseDTO response =
+                AppointmentMapperDTO.toResponse(scheduledAppointment);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/availability")

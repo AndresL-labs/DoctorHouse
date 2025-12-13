@@ -2,13 +2,11 @@ package com.example.doctorhouse.domain.model;
 
 import com.example.doctorhouse.domain.model.enums.AppointmentStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
 
-/**
- * Modelo de dominio puro (sin anotaciones)
- */
 public class AppointmentModel {
 
     public static final int DEFAULT_DURATION_MINUTES = 45;
@@ -17,23 +15,22 @@ public class AppointmentModel {
     private Long idAppointment;
     private Long patientId;
     private Long doctorId;
-    private LocalDateTime appointmentDateTime;
+    private LocalDate appointmentDateTime;
     private LocalTime startAt;
     private Optional<LocalTime> endAt;
     private AppointmentStatus status;
     private LocalDateTime createdAt;
-    private Optional<LocalDateTime> updatedAt;
+    // El campo updatedAt ha sido eliminado
 
     public AppointmentModel() {
         this.endAt = Optional.empty();
-        this.updatedAt = Optional.empty();
     }
 
     public AppointmentModel(
             Long idAppointment,
             Long patientId,
             Long doctorId,
-            LocalDateTime appointmentDateTime,
+            LocalDate appointmentDateTime,
             LocalTime startAt,
             AppointmentStatus status,
             LocalDateTime createdAt
@@ -46,7 +43,6 @@ public class AppointmentModel {
         this.status = status;
         this.createdAt = createdAt;
         this.endAt = Optional.empty();
-        this.updatedAt = Optional.empty();
     }
 
     // ===== GETTERS & SETTERS =====
@@ -75,12 +71,16 @@ public class AppointmentModel {
         this.doctorId = doctorId;
     }
 
-    public LocalDateTime getAppointmentDateTime() {
+    public LocalDate getAppointmentDateTime() {
         return appointmentDateTime;
     }
 
-    public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {
+    public void setAppointmentDateTime(LocalDate appointmentDateTime) {
         this.appointmentDateTime = appointmentDateTime;
+    }
+
+    public void setEndAt(Optional<LocalTime> endAt) {
+        this.endAt = endAt;
     }
 
     public LocalTime getStartAt() {
@@ -113,13 +113,5 @@ public class AppointmentModel {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Optional<LocalDateTime> getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = Optional.ofNullable(updatedAt);
     }
 }

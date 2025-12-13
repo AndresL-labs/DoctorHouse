@@ -14,12 +14,11 @@ public class AppointmentMapper {
         entity.setId(model.getIdAppointment());
         entity.setPatientId(model.getPatientId());
         entity.setDoctorId(model.getDoctorId());
-        entity.setAppointmentDateTime(model.getAppointmentDateTime());
+        entity.setAppointmentDate(model.getAppointmentDateTime()); // Corregido
         entity.setStartAt(model.getStartAt());
         entity.setEndAt(model.getEndAt().orElse(null));
         entity.setStatus(model.getStatus());
         entity.setCreatedAt(model.getCreatedAt());
-        entity.setUpdatedAt(model.getUpdatedAt().orElse(null));
 
         return entity;
     }
@@ -30,12 +29,11 @@ public class AppointmentMapper {
         model.setIdAppointment(entity.getId());
         model.setPatientId(entity.getPatientId());
         model.setDoctorId(entity.getDoctorId());
-        model.setAppointmentDateTime(entity.getAppointmentDateTime());
+        model.setAppointmentDateTime(entity.getAppointmentDate()); // Corregido
         model.setStartAt(entity.getStartAt());
         model.setEndAt(entity.getEndAt());
         model.setStatus(entity.getStatus());
         model.setCreatedAt(entity.getCreatedAt());
-        model.setUpdatedAt(entity.getUpdatedAt());
 
         return model;
     }

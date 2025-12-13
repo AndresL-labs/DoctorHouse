@@ -38,7 +38,7 @@ public class AppointmentService implements ScheduleAppointmentUseCase, CreateApp
         AppointmentModel appointment = new AppointmentModel();
         appointment.setPatientId(patientId);
         appointment.setDoctorId(doctorId);
-        appointment.setAppointmentDateTime(startDateTime);
+        appointment.setAppointmentDateTime(startDateTime.toLocalDate());
         appointment.setStartAt(startDateTime.toLocalTime());
         appointment.setStatus(AppointmentStatus.SCHEDULED);
         appointment.setCreatedAt(LocalDateTime.now());
@@ -59,15 +59,14 @@ public class AppointmentService implements ScheduleAppointmentUseCase, CreateApp
             }
         }
 
-        appointmentRepository.save(appointment);
-        return appointment;
+        return appointmentRepository.save(appointment);
     }
 
     @Override
     public AppointmentModel create(AppointmentModel appointment) {
         calculateEndTime(appointment);
 
-        LocalDate date = appointment.getAppointmentDateTime().toLocalDate();
+        LocalDate date = appointment.getAppointmentDateTime();
         List<AppointmentModel> existingAppointments =
                 appointmentRepository.findByDoctorIdAndDate(
                         appointment.getDoctorId(),
@@ -82,8 +81,7 @@ public class AppointmentService implements ScheduleAppointmentUseCase, CreateApp
             }
         }
 
-        appointmentRepository.save(appointment);
-        return appointment;
+        return appointmentRepository.save(appointment);
     }
 
     private void calculateEndTime(AppointmentModel appointment) {
