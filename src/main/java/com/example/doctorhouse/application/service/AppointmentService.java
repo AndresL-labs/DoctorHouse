@@ -1,5 +1,6 @@
 package com.example.doctorhouse.application.service;
 
+import com.example.doctorhouse.domain.exception.InvalidAppointmentException;
 import com.example.doctorhouse.domain.model.AppointmentModel;
 import com.example.doctorhouse.domain.model.enums.AppointmentStatus;
 import com.example.doctorhouse.domain.port.in.appointment.CreateAppointmentUseCase;
@@ -32,7 +33,7 @@ public class AppointmentService implements ScheduleAppointmentUseCase, CreateApp
             LocalDateTime startDateTime
     ) {
         if (!doctorRepository.isDoctorActive(doctorId)) {
-            throw new RuntimeException("El médico seleccionado no está activo");
+            throw new InvalidAppointmentException("El médico seleccionado no está activo");
         }
 
         AppointmentModel appointment = new AppointmentModel();
@@ -53,7 +54,7 @@ public class AppointmentService implements ScheduleAppointmentUseCase, CreateApp
 
         for (AppointmentModel existing : existingAppointments) {
             if (hasConflictWithBuffer(appointment, existing)) {
-                throw new RuntimeException(
+                throw new InvalidAppointmentException(
                         "El médico no tiene disponibilidad en ese horario"
                 );
             }
@@ -75,7 +76,7 @@ public class AppointmentService implements ScheduleAppointmentUseCase, CreateApp
 
         for (AppointmentModel existing : existingAppointments) {
             if (hasConflictWithBuffer(appointment, existing)) {
-                throw new IllegalStateException(
+                throw new InvalidAppointmentException(
                         "Appointment time conflict"
                 );
             }

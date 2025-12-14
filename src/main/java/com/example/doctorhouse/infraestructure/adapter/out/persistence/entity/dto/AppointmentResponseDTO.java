@@ -15,6 +15,20 @@ public class AppointmentResponseDTO {
     private LocalTime endAt;
     private AppointmentStatus status;
 
+    public AppointmentResponseDTO() {
+    }
+
+    public AppointmentResponseDTO(Long idAppointment, Long patientId, Long doctorId,
+                                  LocalDateTime appointmentDateTime, LocalTime startAt, LocalTime endAt, AppointmentStatus status) {
+        this.idAppointment = idAppointment;
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.appointmentDateTime = appointmentDateTime;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.status = status;
+    }
+
     public Long getIdAppointment() {
         return idAppointment;
     }

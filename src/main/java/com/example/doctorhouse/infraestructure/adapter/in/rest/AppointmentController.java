@@ -10,6 +10,7 @@ import com.example.doctorhouse.infraestructure.adapter.out.persistence.entity.dt
 import com.example.doctorhouse.infraestructure.adapter.out.persistence.entity.dto.AppointmentRequestDTO;
 import com.example.doctorhouse.infraestructure.adapter.out.persistence.entity.dto.AppointmentResponseDTO;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -91,7 +92,9 @@ public class AppointmentController {
     @GetMapping("/availability")
     public AppointmentAvailabilityResponseDTO getAvailability(
             @RequestParam Long doctorId,
-            @RequestParam LocalDate date
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate date
     ) {
 
         AppointmentAvailabilityResponseDTO dto =

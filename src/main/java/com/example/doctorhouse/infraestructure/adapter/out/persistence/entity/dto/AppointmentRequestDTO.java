@@ -17,6 +17,15 @@ public class AppointmentRequestDTO {
     @Future(message = "La cita debe ser en el futuro")
     private LocalDateTime startDateTime;
 
+    public AppointmentRequestDTO() {
+    }
+
+    public AppointmentRequestDTO(Long patientId, Long doctorId, LocalDateTime startDateTime) {
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.startDateTime = startDateTime;
+    }
+
     public Long getPatientId() {
         return patientId;
     }

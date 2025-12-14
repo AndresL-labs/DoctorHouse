@@ -10,6 +10,15 @@ public class AppointmentAvailabilityResponseDTO {
     private LocalDate date;
     private List<LocalTime> availableTimes;
 
+    public AppointmentAvailabilityResponseDTO() {
+    }
+
+    public AppointmentAvailabilityResponseDTO(Long doctorId, LocalDate date, List<LocalTime> availableTimes) {
+        this.doctorId = doctorId;
+        this.date = date;
+        this.availableTimes = availableTimes;
+    }
+
     public Long getDoctorId() {
         return doctorId;
     }

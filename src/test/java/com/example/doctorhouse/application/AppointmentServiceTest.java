@@ -33,7 +33,8 @@ class AppointmentServiceTest {
         // 1. Cita existente que simularemos que ya está en la base de datos
         AppointmentModel existingAppointment = new AppointmentModel();
         existingAppointment.setDoctorId(1L);
-        existingAppointment.setAppointmentDateTime(LocalDateTime.of(2025, 1, 20, 10, 0));
+        // CORRECCIÓN: Usar toLocalDate() para obtener solo la fecha
+        existingAppointment.setAppointmentDateTime(LocalDateTime.of(2025, 1, 20, 10, 0).toLocalDate());
         existingAppointment.setStartAt(LocalTime.of(10, 0));
         existingAppointment.setEndAt(LocalTime.of(10, 45)); // El servicio calculará esto, pero lo ponemos para claridad
 
@@ -41,7 +42,8 @@ class AppointmentServiceTest {
         AppointmentModel newAppointment = new AppointmentModel();
         newAppointment.setDoctorId(1L);
         newAppointment.setPatientId(2L);
-        newAppointment.setAppointmentDateTime(LocalDateTime.of(2025, 1, 20, 10, 30));
+        // CORRECCIÓN: Usar toLocalDate() para obtener solo la fecha
+        newAppointment.setAppointmentDateTime(LocalDateTime.of(2025, 1, 20, 10, 30).toLocalDate());
         newAppointment.setStartAt(LocalTime.of(10, 30));
 
         // 3. Simular el comportamiento del repositorio: cuando se busque citas para ese doctor y fecha, devolver la cita existente
