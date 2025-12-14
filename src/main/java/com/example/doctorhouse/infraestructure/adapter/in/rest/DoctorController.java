@@ -25,7 +25,10 @@ public class DoctorController {
     public ResponseEntity<List<DoctorResponseDTO>> getActiveDoctors() {
         List<DoctorModel> doctors = getAllActiveDoctorsUseCase.execute();
         List<DoctorResponseDTO> response = doctors.stream()
-                .map(doctor -> new DoctorResponseDTO(doctor.getId(), doctor.getName()))
+                .map(doctor -> {
+                    String name = String.format("%s (Lic: %s)", doctor.getSpecialty(), doctor.getLicenseNumber());
+                    return new DoctorResponseDTO(doctor.getId(), name);
+                })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }

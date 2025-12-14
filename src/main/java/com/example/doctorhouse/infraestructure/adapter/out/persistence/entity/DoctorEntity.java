@@ -18,7 +18,10 @@ public class DoctorEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String specialty;
+
+    @Column(name = "license_number", nullable = false)
+    private String licenseNumber;
 
     @Column(nullable = false)
     private boolean active;

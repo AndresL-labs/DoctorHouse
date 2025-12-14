@@ -2,15 +2,17 @@ package com.example.doctorhouse.domain.model;
 
 public class DoctorModel {
     private Long id;
-    private String name;
+    private String specialty;
+    private String licenseNumber;
     private boolean active;
 
     public DoctorModel() {
     }
 
-    public DoctorModel(Long id, String name, boolean active) {
+    public DoctorModel(Long id, String specialty, String licenseNumber, boolean active) {
         this.id = id;
-        this.name = name;
+        this.specialty = specialty;
+        this.licenseNumber = licenseNumber;
         this.active = active;
     }
 
@@ -22,12 +24,20 @@ public class DoctorModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSpecialty() {
+        return specialty;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
     }
 
     public boolean isActive() {
