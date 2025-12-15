@@ -16,6 +16,8 @@ public class DoctorModel {
         this.active = active;
     }
 
+    // Getters y setters
+
     public Long getId() {
         return id;
     }
