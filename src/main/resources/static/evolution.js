@@ -22,9 +22,10 @@ if (appointmentId) {
     })
         .then(res => res.ok ? res.json() : Promise.reject(res))
         .then(data => {
-            appointmentInfo.innerHTML = `<strong>Patient:</strong> ${data.patientName || '-'}<br>
-                <strong>Address:</strong> ${data.address || '-'}<br>
-                <strong>Date/Time:</strong> ${data.dateTime || '-'}<br>
+            appointmentInfo.innerHTML = `<strong>Appointment ID:</strong> ${data.idAppointment || '-'}<br>
+                <strong>Patient ID:</strong> ${data.patientId || '-'}<br>
+                <strong>Date/Time:</strong> ${data.appointmentDateTime || '-'}<br>
+                <strong>Start:</strong> ${data.startAt || '-'}<br>
                 <strong>Status:</strong> ${data.status || '-'}`;
         })
         .catch(() => {
@@ -50,6 +51,10 @@ form.addEventListener('submit', function (e) {
         return;
     }
     
+    // Optional fields
+    const temperature = form.temperature.value.trim() ? parseFloat(form.temperature.value) : null;
+    const oxygenSaturation = form.oxygenSaturation.value.trim() ? parseInt(form.oxygenSaturation.value, 10) : null;
+    
     // Prepare body
     const requestBody = {
         bloodPressure,
@@ -57,6 +62,14 @@ form.addEventListener('submit', function (e) {
         diagnosis,
         observations: form.observations.value.trim()
     };
+    
+    // Add optional fields only if they have values
+    if (temperature !== null) {
+        requestBody.temperature = temperature;
+    }
+    if (oxygenSaturation !== null) {
+        requestBody.oxygenSaturation = oxygenSaturation;
+    }
 
     fetch(`/appointments/${appointmentId}/evolution`, {
         method: 'POST',
