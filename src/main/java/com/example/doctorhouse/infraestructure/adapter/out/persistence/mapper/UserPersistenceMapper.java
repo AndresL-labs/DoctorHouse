@@ -9,8 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface UserPersistenceMapper {
 
+    @Mapping(target = "firstLogin", source = "firstLogin")
     UserEntity toEntity(UserModel userModel);
 
+    @Mapping(target = "firstLogin", source = "firstLogin")
     UserModel toDomain(UserEntity userEntity);
 
 }

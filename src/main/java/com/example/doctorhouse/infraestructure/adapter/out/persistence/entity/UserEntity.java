@@ -33,4 +33,6 @@ public class UserEntity {
     private boolean isActive;
 
     private OffsetDateTime createdAt;
+
+    private boolean firstLogin = true;
 }

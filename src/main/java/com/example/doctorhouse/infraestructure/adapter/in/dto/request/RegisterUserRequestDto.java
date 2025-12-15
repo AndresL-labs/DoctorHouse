@@ -9,7 +9,7 @@ public record RegisterUserRequestDto(
         @NotBlank String lastName,
         @NotBlank String dni,
         @Email @NotBlank String email,
-        @NotBlank String password,
+        String password,
         @NotBlank String phone,
         Role role
 ) {
