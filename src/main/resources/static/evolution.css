@@ -1,0 +1,97 @@
+/* Clinic Modern Palette */
+:root {
+  --blue-main: #1E88E5;
+  --blue-light: #90CAF9;
+  --green-main: #43A047;
+  --gray-light: #F5F7FA;
+  --text-main: #263238;
+  --text-secondary: #607D8B;
+}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: var(--gray-light);
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 550px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(30,136,229,0.11);
+  padding: 2rem 2rem 2.5rem 2rem;
+}
+header {
+  margin-bottom: 1.5rem;
+}
+.card {
+  background: var(--blue-light);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.7rem;
+  box-shadow: 0 1px 3px rgba(30,136,229,0.07);
+}
+h1 {
+  font-size: 1.7rem;
+  color: var(--blue-main);
+  margin-bottom: 0.15em;
+}
+/* Form Styles */
+.evolution-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.form-group label {
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.2em;
+  display: block;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.62em;
+  border: 1.2px solid var(--blue-light);
+  border-radius: 5px;
+  font-size: 1.03em;
+  margin-top: 0.09em;
+  transition: border-color 0.18s;
+  color: var(--text-main);
+  background: #fff;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--blue-main);
+}
+.form-group span {
+  color: var(--green-main);
+  margin-left: 3px;
+}
+.btn.primary {
+  background: var(--blue-main);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.72em 1.7em;
+  font-size: 1.09em;
+  font-weight: bold;
+  margin-top: 0.8em;
+  box-shadow: 0 2px 6px rgba(30,136,229,0.13);
+  cursor: pointer;
+  transition: background 0.22s;
+}
+.btn.primary:hover {
+  background: #1867b7;
+}
+.form-message {
+  margin-top: 1em;
+  font-size: 1em;
+  color: var(--green-main);
+  min-height: 1.6em;
+}
+.form-message.error {
+  color: #c62828;
+}

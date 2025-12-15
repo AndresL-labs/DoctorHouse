@@ -42,6 +42,11 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
+                        .requestMatchers(
+                                "/evolution.html",
+                                "/evolution.css",
+                                "/evolution.js"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(

@@ -12,7 +12,9 @@ import com.example.doctorhouse.domain.port.out.SecurityPort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -42,7 +44,7 @@ public class RegisterAppointmentEvolutionService implements RegisterAppointmentE
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
 
         // 3. Validate that the appointment belongs to the authenticated doctor
-        if (!appointment.getDoctorId().equals(authenticatedDoctorId)) {
+        if (!Objects.equals(appointment.getDoctorId(), authenticatedDoctorId)) {
             throw new SecurityException("The appointment does not belong to the authenticated doctor");
         }
 
@@ -72,6 +74,7 @@ public class RegisterAppointmentEvolutionService implements RegisterAppointmentE
         appointment.setStatus(AppointmentStatus.COMPLETED);
         // Use endAt as the actual completion time
         appointment.setEndAt(LocalTime.now());
+        appointment.setUpdatedAt(LocalDateTime.now());
 
         // 8. Persist changes (Transactionality should be handled by the framework)
         AppointmentEvolution savedEvolution = evolutionRepository.save(evolution);

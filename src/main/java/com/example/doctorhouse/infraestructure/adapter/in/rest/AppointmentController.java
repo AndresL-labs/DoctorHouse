@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @RestController
 @RequestMapping("/appointments")
@@ -29,15 +28,18 @@ public class AppointmentController {
         private final ScheduleAppointmentUseCase scheduleAppointmentUseCase;
         private final GetDoctorAvailabilityUseCase availabilityUseCase;
         private final com.example.doctorhouse.domain.port.in.RegisterAppointmentEvolutionUseCase registerEvolutionUseCase;
+        private final com.example.doctorhouse.domain.port.out.AppointmentRepositoryPort appointmentRepositoryPort;
 
         public AppointmentController(CreateAppointmentUseCase createAppointmentUseCase,
                         ScheduleAppointmentUseCase scheduleAppointmentUseCase,
                         GetDoctorAvailabilityUseCase availabilityUseCase,
-                        com.example.doctorhouse.domain.port.in.RegisterAppointmentEvolutionUseCase registerEvolutionUseCase) {
+                        com.example.doctorhouse.domain.port.in.RegisterAppointmentEvolutionUseCase registerEvolutionUseCase,
+                        com.example.doctorhouse.domain.port.out.AppointmentRepositoryPort appointmentRepositoryPort) {
                 this.createAppointmentUseCase = createAppointmentUseCase;
                 this.scheduleAppointmentUseCase = scheduleAppointmentUseCase;
                 this.availabilityUseCase = availabilityUseCase;
                 this.registerEvolutionUseCase = registerEvolutionUseCase;
+                this.appointmentRepositoryPort = appointmentRepositoryPort;
         }
 
         // ===============================
@@ -95,6 +97,15 @@ public class AppointmentController {
                                 availabilityUseCase.execute(doctorId, date));
 
                 return dto;
+        }
+
+        @GetMapping("/{id}")
+        @PreAuthorize("hasRole('DOCTOR')")
+        public ResponseEntity<AppointmentResponseDTO> getById(@PathVariable Long id) {
+                AppointmentModel appointment = appointmentRepositoryPort.findById(id)
+                                .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+                AppointmentResponseDTO response = AppointmentMapperDTO.toResponse(appointment);
+                return ResponseEntity.ok(response);
         }
 
         @PostMapping("/{id}/evolution")
