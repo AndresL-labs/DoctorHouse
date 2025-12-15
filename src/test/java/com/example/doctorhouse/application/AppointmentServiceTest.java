@@ -2,16 +2,14 @@ package com.example.doctorhouse.application;
 
 
 import com.example.doctorhouse.application.service.AppointmentService;
+import com.example.doctorhouse.domain.exception.InvalidAppointmentException;
 import com.example.doctorhouse.domain.model.AppointmentModel;
 import com.example.doctorhouse.domain.port.out.AppointmentRepositoryPort;
 import com.example.doctorhouse.domain.port.out.DoctorRepositoryPort;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -52,9 +50,9 @@ class AppointmentServiceTest {
 
         // Act & Assert (Actuar y Afirmar)
 
-        // Se espera que 'create' lance una IllegalStateException porque hay un conflicto de horario
+        // Se espera que 'create' lance una InvalidAppointmentException porque hay un conflicto de horario
         assertThrows(
-                IllegalStateException.class,
+                InvalidAppointmentException.class,
                 () -> service.create(newAppointment),
                 "Debería lanzarse una excepción por conflicto de horario"
         );
