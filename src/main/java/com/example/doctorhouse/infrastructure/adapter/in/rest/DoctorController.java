@@ -1,0 +1,31 @@
+package com.example.doctorhouse.infrastructure.adapter.in.rest;
+
+import com.example.doctorhouse.domain.model.Doctor;
+import com.example.doctorhouse.domain.port.in.RegisterDoctorUseCase;
+import com.example.doctorhouse.infrastructure.adapter.in.mapper.DoctorMapper;
+import com.example.doctorhouse.infrastructure.adapter.in.rest.dto.DoctorRequest;
+import com.example.doctorhouse.infrastructure.adapter.in.rest.dto.DoctorResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/doctors")
+@RequiredArgsConstructor
+public class DoctorController {
+
+    private final RegisterDoctorUseCase registerDoctorUseCase;
+    private final DoctorMapper doctorMapper;
+
+    @PostMapping
+    public ResponseEntity<DoctorResponse> register(@Valid @RequestBody DoctorRequest request) {
+        Doctor domainDoctor = doctorMapper.toDomain(request);
+        Doctor registeredDoctor = registerDoctorUseCase.registerDoctor(domainDoctor);
+        return new ResponseEntity<>(doctorMapper.toResponse(registeredDoctor), HttpStatus.CREATED);
+    }
+}

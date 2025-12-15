@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Schedule Appointment - DoctorHouse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Schedule Appointment</h4>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${param.success}" class="alert alert-success">
+                            Appointment scheduled successfully!
+                        </div>
+
+                        <form id="scheduleForm" th:action="@{/analyst/schedule-appointment}" method="post">
+                            <div class="mb-3">
+                                <label for="doctor" class="form-label">Select Doctor</label>
+                                <select class="form-select" id="doctor" name="doctorId" required>
+                                    <option value="" disabled selected>Choose a doctor...</option>
+                                    <option th:each="doc : ${doctors}" th:value="${doc.id}"
+                                        th:text="${doc.firstName + ' ' + doc.lastName + ' (' + doc.specialty + ')'}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Select Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+
+                            <div class="d-grid mb-3">
+                                <button type="button" class="btn btn-secondary" onclick="checkAvailability()">Check
+                                    Availability</button>
+                            </div>
+
+                            <div id="slotsContainer" class="mb-3" style="display:none;">
+                                <h5>Available Slots</h5>
+                                <div class="d-flex flex-wrap gap-2" id="slots">
+                                    <!-- Slots will be injected here -->
+                                </div>
+                                <input type="hidden" id="selectedTime" name="time" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="patientDni" class="form-label">Patient DNI</label>
+                                <input type="text" class="form-control" id="patientDni" name="patientDni" required>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success" disabled id="submitBtn">Book
+                                    Appointment</button>
+                                <a th:href="@{/analyst/home}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript to handle availability fetching -->
+    <script>
+        function checkAvailability() {
+            const doctorId = document.getElementById('doctor').value;
+            const date = document.getElementById('date').value;
+
+            if (!doctorId || !date) {
+                alert('Please select a doctor and a date.');
+                return;
+            }
+
+            fetch(`/analyst/schedule-item/availability?doctorId=${doctorId}&date=${date}`)
+                .then(response => response.json())
+                .then(slots => {
+                    const container = document.getElementById('slotsContainer');
+                    const slotsDiv = document.getElementById('slots');
+                    slotsDiv.innerHTML = '';
+
+                    if (slots.length === 0) {
+                        slotsDiv.innerHTML = '<p class="text-danger">No slots available for this date.</p>';
+                    } else {
+                        slots.forEach(slot => {
+                            const btn = document.createElement('button');
+                            btn.type = 'button';
+                            btn.className = 'btn btn-outline-primary';
+                            btn.textContent = slot; // HH:mm format usually
+                            btn.onclick = function () {
+                                selectSlot(this, slot);
+                            };
+                            slotsDiv.appendChild(btn);
+                        });
+                    }
+                    container.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error checking availability.');
+                });
+        }
+
+        function selectSlot(btn, time) {
+            // Reset others
+            const buttons = document.getElementById('slots').getElementsByTagName('button');
+            for (let b of buttons) {
+                b.classList.remove('btn-primary');
+                b.classList.add('btn-outline-primary');
+            }
+
+            // Select this one
+            btn.classList.remove('btn-outline-primary');
+            btn.classList.add('btn-primary');
+
+            document.getElementById('selectedTime').value = time;
+            document.getElementById('submitBtn').disabled = false;
+        }
+    </script>
+</body>
+
+</html>
