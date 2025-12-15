@@ -41,3 +41,4 @@ COMMENT ON COLUMN appointment_evolutions.blood_pressure IS 'Tensión arterial (e
 COMMENT ON COLUMN appointment_evolutions.heart_rate IS 'Frecuencia cardíaca en latidos por minuto';
 COMMENT ON COLUMN appointment_evolutions.diagnosis IS 'Diagnóstico médico';
 
+

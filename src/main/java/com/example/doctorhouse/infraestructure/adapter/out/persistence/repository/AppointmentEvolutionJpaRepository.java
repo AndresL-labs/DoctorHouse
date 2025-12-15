@@ -9,3 +9,4 @@ public interface AppointmentEvolutionJpaRepository extends JpaRepository<Appoint
     Optional<AppointmentEvolutionEntity> findByAppointmentId(Long appointmentId);
 }
 
+
