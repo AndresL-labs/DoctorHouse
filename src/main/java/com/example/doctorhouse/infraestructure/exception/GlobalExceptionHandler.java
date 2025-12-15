@@ -20,13 +20,42 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponseDTO(ex.getMessage()));
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDTO> handleGenericException(
-            Exception ex
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<ErrorResponseDTO> handleSecurityException(
+            SecurityException ex
     ) {
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponseDTO("Error interno del servidor"));
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponseDTO(ex.getMessage()));
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponseDTO> handleIllegalStateException(
+            IllegalStateException ex
+    ) {
+        if (ex.getMessage() != null && ex.getMessage().contains("not authenticated")) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponseDTO("User not authenticated"));
+        }
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDTO(ex.getMessage()));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponseDTO> handleIllegalArgumentException(
+            IllegalArgumentException ex
+    ) {
+        String message = ex.getMessage();
+        if (message != null && message.contains("does not allow clinical evolution registration")) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponseDTO(message));
+        }
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDTO(message != null ? message : "Invalid request"));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -41,6 +70,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDTO(message));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDTO> handleGenericException(
+            Exception ex
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponseDTO("Internal server error"));
     }
 
 }

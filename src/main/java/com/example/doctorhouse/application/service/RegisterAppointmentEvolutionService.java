@@ -1,34 +1,63 @@
 package com.example.doctorhouse.application.service;
 
 import com.example.doctorhouse.domain.model.AppointmentEvolution;
+import com.example.doctorhouse.domain.model.AppointmentModel;
 import com.example.doctorhouse.domain.model.dto.command.RegisterAppointmentEvolutionCommand;
+import com.example.doctorhouse.domain.model.enums.AppointmentStatus;
 import com.example.doctorhouse.domain.port.in.RegisterAppointmentEvolutionUseCase;
 import com.example.doctorhouse.domain.port.out.AppointmentEvolutionRepositoryPort;
-import com.example.doctorhouse.domain.port.out.AppointmentExistencePort;
+import com.example.doctorhouse.domain.port.out.AppointmentRepositoryPort;
+import com.example.doctorhouse.domain.port.out.SecurityPort;
 
-public class RegisterAppointmentEvolutionService
-        implements RegisterAppointmentEvolutionUseCase {
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalTime;
+
+@Service
+@Transactional
+public class RegisterAppointmentEvolutionService implements RegisterAppointmentEvolutionUseCase {
 
     private final AppointmentEvolutionRepositoryPort evolutionRepository;
-    private final AppointmentExistencePort appointmentExistencePort;
+    private final AppointmentRepositoryPort appointmentRepository;
+    private final SecurityPort securityPort;
 
     public RegisterAppointmentEvolutionService(
             AppointmentEvolutionRepositoryPort evolutionRepository,
-            AppointmentExistencePort appointmentExistencePort
-    ) {
+            AppointmentRepositoryPort appointmentRepository,
+            SecurityPort securityPort) {
         this.evolutionRepository = evolutionRepository;
-        this.appointmentExistencePort = appointmentExistencePort;
+        this.appointmentRepository = appointmentRepository;
+        this.securityPort = securityPort;
     }
 
     @Override
-    public void registerEvolution(RegisterAppointmentEvolutionCommand command) {
+    public AppointmentEvolution registerEvolution(RegisterAppointmentEvolutionCommand command) {
+        // 1. Get authenticated user
+        Long authenticatedDoctorId = securityPort.getAuthenticatedUserId()
+                .orElseThrow(() -> new IllegalStateException("User not authenticated"));
 
-        // 1. Validate that the appointment exists
-        if (!appointmentExistencePort.existsAppointment(command.appointmentId())) {
-            throw new IllegalArgumentException("Appointment does not exist");
+        // 2. Find the appointment
+        AppointmentModel appointment = appointmentRepository.findById(command.appointmentId())
+                .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
+
+        // 3. Validate that the appointment belongs to the authenticated doctor
+        if (!appointment.getDoctorId().equals(authenticatedDoctorId)) {
+            throw new SecurityException("The appointment does not belong to the authenticated doctor");
         }
 
-        // 2. Create the evolution (domain)
+        // 4. Validate that no previous evolution exists (1:1 relationship)
+        if (evolutionRepository.findByAppointmentId(command.appointmentId()).isPresent()) {
+            throw new IllegalArgumentException("The appointment already has a clinical evolution registered");
+        }
+
+        // 5. Validate appointment status (only SCHEDULED allows evolution registration)
+        if (appointment.getStatus() != AppointmentStatus.SCHEDULED) {
+            throw new IllegalArgumentException(
+                    "The appointment does not allow clinical evolution registration. Current status: " + appointment.getStatus());
+        }
+
+        // 6. Create the evolution (Domain)
         AppointmentEvolution evolution = AppointmentEvolution.create(
                 command.appointmentId(),
                 command.bloodPressure(),
@@ -37,16 +66,17 @@ public class RegisterAppointmentEvolutionService
                 command.oxygenSaturation(),
                 command.weightKg(),
                 command.diagnosis(),
-                command.observations()
-        );
+                command.observations());
 
-        // 3. Persist evolution
-        evolutionRepository.save(evolution);
+        // 7. Update the appointment (Finalize)
+        appointment.setStatus(AppointmentStatus.COMPLETED);
+        // Use endAt as the actual completion time
+        appointment.setEndAt(LocalTime.now());
 
-        // TODO:
-        // - validate appointment status (SCHEDULED / IN_PROGRESS)
-        // - finalize appointment
-        // - set completedAt timestamp
-        // - validate authenticated doctor ownership
+        // 8. Persist changes (Transactionality should be handled by the framework)
+        AppointmentEvolution savedEvolution = evolutionRepository.save(evolution);
+        appointmentRepository.save(appointment);
+
+        return savedEvolution;
     }
 }

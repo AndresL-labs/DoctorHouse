@@ -52,8 +52,16 @@ public class AppointmentEvolution {
             throw new IllegalArgumentException("appointmentId must be valid");
         }
 
-        if (heartRate != null && heartRate <= 0) {
-            throw new IllegalArgumentException("heartRate must be positive");
+        if (bloodPressure == null || bloodPressure.trim().isEmpty()) {
+            throw new IllegalArgumentException("bloodPressure is required");
+        }
+
+        if (heartRate == null || heartRate <= 0) {
+            throw new IllegalArgumentException("heartRate is required and must be positive");
+        }
+
+        if (diagnosis == null || diagnosis.trim().isEmpty()) {
+            throw new IllegalArgumentException("diagnosis is required");
         }
 
         if (temperature != null && (temperature < 30 || temperature > 45)) {
@@ -79,6 +87,31 @@ public class AppointmentEvolution {
                 diagnosis,
                 observations,
                 LocalDateTime.now()
+        );
+    }
+
+    // Factory Method para reconstruir desde persistencia
+    public static AppointmentEvolution fromPersistence(Long id,
+                                                       Long appointmentId,
+                                                       String bloodPressure,
+                                                       Integer heartRate,
+                                                       Double temperature,
+                                                       Integer oxygenSaturation,
+                                                       Double weightKg,
+                                                       String diagnosis,
+                                                       String observations,
+                                                       LocalDateTime createdAt) {
+        return new AppointmentEvolution(
+                id,
+                appointmentId,
+                bloodPressure,
+                heartRate,
+                temperature,
+                oxygenSaturation,
+                weightKg,
+                diagnosis,
+                observations,
+                createdAt
         );
     }
 
