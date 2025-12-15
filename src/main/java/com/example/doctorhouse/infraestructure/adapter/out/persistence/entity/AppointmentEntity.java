@@ -9,7 +9,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "appointments")
-//Representación de la tabla en la base de datos
+// Representación de la tabla en la base de datos
 public class AppointmentEntity {
 
     @Id

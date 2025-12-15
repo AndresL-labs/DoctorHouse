@@ -36,8 +36,7 @@ public class AppointmentModel {
             LocalDateTime appointmentDateTime,
             LocalTime startAt,
             AppointmentStatus status,
-            LocalDateTime createdAt
-    ) {
+            LocalDateTime createdAt) {
         this.idAppointment = idAppointment;
         this.patientId = patientId;
         this.doctorId = doctorId;

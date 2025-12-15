@@ -13,6 +13,7 @@ public interface AppointmentRepositoryPort {
 
     List<AppointmentModel> findByDoctorIdAndDate(
             Long doctorId,
-            LocalDate date
-    );
+            LocalDate date);
+
+    java.util.Optional<AppointmentModel> findById(Long id);
 }
