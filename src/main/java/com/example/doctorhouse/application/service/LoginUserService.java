@@ -9,6 +9,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class LoginUserService implements LoginUserUseCase {
 
@@ -29,13 +31,30 @@ public class LoginUserService implements LoginUserUseCase {
                 new UsernamePasswordAuthenticationToken(email, password)
         );
 
-        // Si llega aquí, credenciales válidas
+        // Credenciales válidas
         UserModel user = userRepositoryPort.findByEmail(email)
                 .orElseThrow(InvalidCredentialsException::new);
 
-        return jwtUtils.generateToken(
+        // Revisar si es el primer login
+        boolean isFirstLogin = user.isFirstLogin();
+
+        if (isFirstLogin) {
+            user.setFirstLogin(false); // actualizar el flag
+            userRepositoryPort.save(user); // persistir el cambio
+        }
+
+        // Generar token
+        String token = jwtUtils.generateToken(
                 user.getEmail(),
                 user.getRole().name()
         );
+
+        // Aquí podrías devolver un DTO que incluya token + firstLogin si quieres
+        return token;
+    }
+
+    @Override
+    public Optional<UserModel> getUserByEmail(String email) {
+        return userRepositoryPort.findByEmail(email);
     }
 }

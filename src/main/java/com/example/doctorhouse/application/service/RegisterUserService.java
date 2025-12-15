@@ -33,6 +33,17 @@ public class RegisterUserService implements RegisterUserUseCase {
             throw new DuplicateUserException("The email already exists");
         }
 
+        if (userModel.getPassword() == null || userModel.getPassword().isBlank()) {
+            String defaultPassword = UUID.randomUUID()
+                    .toString()
+                    .replace("-", "")
+                    .substring(0, 8);
+
+            System.out.println("TEMP PASSWORD for " + userModel.getEmail() + " : " + defaultPassword);
+
+            userModel.setPassword(defaultPassword);
+        }
+
         userModel.setPassword(
                 passwordEncoder.encode(userModel.getPassword())
         );
@@ -43,7 +54,28 @@ public class RegisterUserService implements RegisterUserUseCase {
 
         userModel.setActive(true);
         userModel.setCreatedAt(OffsetDateTime.now());
+        userModel.setFirstLogin(true);
 
         userRepositoryPort.save(userModel);
+    }
+
+    @Override
+    public void changePassword(String email, String oldPassword, String newPassword) {
+        // Buscar usuario por email
+        UserModel user = userRepositoryPort.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Verificar que la contraseña actual coincida
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new RuntimeException("Old password is incorrect");
+        }
+
+        // Codificar y actualizar la contraseña
+        user.setPassword(passwordEncoder.encode(newPassword));
+
+        // Si quieres, también puedes resetear el flag firstLogin
+        user.setFirstLogin(false);
+
+        userRepositoryPort.save(user);
     }
 }
