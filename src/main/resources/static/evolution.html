@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Clinical Evolution</title>
+    <link rel="stylesheet" href="evolution.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Clinical Evolution Registration</h1>
+        <div id="appointment-info" class="card">
+            <!-- Patient, Address, Date/Time info will be filled by JS -->
+        </div>
+    </header>
+    <main>
+        <form id="evolution-form" class="evolution-form">
+            <div class="form-group">
+                <label for="bloodPressure">Blood Pressure<span>*</span></label>
+                <input type="text" id="bloodPressure" name="bloodPressure" required placeholder="e.g. 120/80">
+            </div>
+            <div class="form-group">
+                <label for="heartRate">Heart Rate<span>*</span></label>
+                <input type="number" id="heartRate" name="heartRate" required min="1" placeholder="e.g. 75">
+            </div>
+            <div class="form-group">
+                <label for="diagnosis">Diagnosis<span>*</span></label>
+                <textarea id="diagnosis" name="diagnosis" rows="2" required placeholder="Diagnosis details..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="observations">Observations</label>
+                <textarea id="observations" name="observations" placeholder="Optional notes..."></textarea>
+            </div>
+            <!-- Optional fields for the future can be added here -->
+            <button type="submit" class="btn primary">Save &amp; Finish</button>
+            <div id="form-message" class="form-message"></div>
+        </form>
+    </main>
+</div>
+<script src="evolution.js"></script>
+</body>
+</html>
