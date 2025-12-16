@@ -31,4 +31,20 @@ public class AppointmentWebController {
                 })
                 .orElse("redirect:/patient/home?no_record");
     }
+
+    private final com.example.doctorhouse.domain.port.in.FinishAppointmentUseCase finishAppointmentUseCase;
+
+    @org.springframework.web.bind.annotation.GetMapping("/{id}/finish")
+    public String showFinishAppointmentForm(@PathVariable Long id, org.springframework.ui.Model model) {
+        model.addAttribute("appointmentId", id);
+        model.addAttribute("medicalRecord", new com.example.doctorhouse.domain.model.MedicalRecord());
+        return "doctor/finish_appointment";
+    }
+
+    @PostMapping("/{id}/finish")
+    public String finishAppointment(@PathVariable Long id,
+            @org.springframework.web.bind.annotation.ModelAttribute com.example.doctorhouse.domain.model.MedicalRecord medicalRecord) {
+        finishAppointmentUseCase.finishAppointment(id, medicalRecord);
+        return "redirect:/doctor/home?finished";
+    }
 }

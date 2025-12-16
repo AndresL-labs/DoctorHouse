@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Finalizar Cita</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>Finalizar Cita</h2>
+        <form th:action="@{/appointments/{id}/finish(id=${appointmentId})}" th:object="${medicalRecord}" method="post">
+
+            <div class="mb-3">
+                <label for="diagnosis" class="form-label">Diagnóstico</label>
+                <textarea class="form-control" id="diagnosis" th:field="*{diagnosis}" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="treatment" class="form-label">Tratamiento</label>
+                <textarea class="form-control" id="treatment" th:field="*{treatment}"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="observations" class="form-label">Observaciones</label>
+                <textarea class="form-control" id="observations" th:field="*{observations}"></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="startedAt" class="form-label">Hora Inicio</label>
+                    <input type="time" class="form-control" id="startedAt" th:field="*{startedAt}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="finishedAt" class="form-label">Hora Fin</label>
+                    <input type="time" class="form-control" id="finishedAt" th:field="*{finishedAt}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="bloodPressure" class="form-label">Presión Arterial</label>
+                    <input type="text" class="form-control" id="bloodPressure" th:field="*{bloodPressure}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="heartRate" class="form-label">Ritmo Cardíaco</label>
+                    <input type="number" class="form-control" id="heartRate" th:field="*{heartRate}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="weightKg" class="form-label">Peso (kg)</label>
+                    <input type="number" step="0.01" class="form-control" id="weightKg" th:field="*{weightKg}">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar y Finalizar</button>
+            <a th:href="@{/doctor/home}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+
+</html>

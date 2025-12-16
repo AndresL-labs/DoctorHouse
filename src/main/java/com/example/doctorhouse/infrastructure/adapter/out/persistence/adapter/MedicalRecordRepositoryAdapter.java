@@ -21,4 +21,11 @@ public class MedicalRecordRepositoryAdapter implements MedicalRecordRepositoryPo
         return jpaRepository.findByAppointment_Id(appointmentId)
                 .map(mapper::toDomain);
     }
+
+    @Override
+    public MedicalRecord save(MedicalRecord medicalRecord) {
+        var entity = mapper.toEntity(medicalRecord);
+        var savedEntity = jpaRepository.save(entity);
+        return mapper.toDomain(savedEntity);
+    }
 }

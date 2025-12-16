@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface MedicalRecordRepositoryPort {
     Optional<MedicalRecord> findByAppointmentId(Long appointmentId);
+
+    MedicalRecord save(MedicalRecord medicalRecord);
 }

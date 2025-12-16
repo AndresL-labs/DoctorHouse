@@ -36,8 +36,13 @@
                                     th:text="${appointment.status}">PROGRAMADA</span>
                                 <span class="badge bg-success" th:if="${appointment.status.name() == 'COMPLETADA'}"
                                     th:text="${appointment.status}">COMPLETADA</span>
+                                <span class="badge bg-success" th:if="${appointment.status.name() == 'FINALIZADA'}"
+                                    th:text="${appointment.status}">FINALIZADA</span>
                                 <span class="badge bg-danger" th:if="${appointment.status.name() == 'CANCELADA'}"
                                     th:text="${appointment.status}">CANCELADA</span>
+                                <a th:if="${appointment.status.name() == 'PROGRAMADA'}"
+                                    th:href="@{/appointments/{id}/finish(id=${appointment.id})}"
+                                    class="btn btn-primary btn-sm ms-2">Finalizar</a>
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(appointments)}">
