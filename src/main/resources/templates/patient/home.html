@@ -109,7 +109,7 @@
                                 <td>
                                     <form th:action="@{/appointments/{id}/cancel(id=${app.id})}" method="post">
                                         <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Are you sure?');">Cancel</button>
+                                            onclick="return confirm('¿Estás seguro?');">Cancelar</button>
                                     </form>
                                 </td>
                             </tr>
@@ -124,13 +124,13 @@
             <!-- Appointment History -->
             <div class="card">
                 <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0">Historia</h5>
+                    <h5 class="mb-0">Historial</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Fecha & Hora</th>
+                                <th>Fecha y Hora</th>
                                 <th>Doctor</th>
                                 <th>Especialidad</th>
                                 <th>Estado</th>

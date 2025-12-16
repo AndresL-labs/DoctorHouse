@@ -96,7 +96,7 @@
                         </div>
                         <div class="card-body">
                             <div th:if="${param.success}" class="alert alert-success">
-                                Cita programada con éxito!
+                                ¡Cita programada con éxito!
                             </div>
 
                             <form id="scheduleForm" th:action="@{/analyst/schedule-appointment}" method="post">
@@ -116,12 +116,12 @@
                                 </div>
 
                                 <div class="d-grid mb-3">
-                                    <button type="button" class="btn btn-secondary" onclick="checkAvailability()">Check
-                                        Availability</button>
+                                    <button type="button" class="btn btn-secondary" onclick="checkAvailability()">Verificar
+                                        Disponibilidad</button>
                                 </div>
 
                                 <div id="slotsContainer" class="mb-3" style="display:none;">
-                                    <h5>Ranuras disponibles</h5>
+                                    <h5>Horarios disponibles</h5>
                                     <div class="d-flex flex-wrap gap-2" id="slots">
                                         <!-- Slots will be injected here -->
                                     </div>
@@ -136,7 +136,7 @@
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-success" disabled id="submitBtn">Agendar
                                         cita</button>
-                                    <a th:href="@{/analyst/home}" class="btn btn-secondary">Cancel</a>
+                                    <a th:href="@{/analyst/home}" class="btn btn-secondary">Cancelar</a>
                                 </div>
                             </form>
                         </div>
@@ -152,7 +152,7 @@
                 const date = document.getElementById('date').value;
 
                 if (!doctorId || !date) {
-                    alert('Please select a doctor and a date.');
+                    alert('Por favor, seleccione un médico y una fecha.');
                     return;
                 }
 
@@ -160,7 +160,7 @@
                     .then(async response => {
                         if (!response.ok) {
                             const err = await response.json();
-                            throw new Error(err.error || 'Error checking availability');
+                            throw new Error(err.error || 'Error al verificar la disponibilidad');
                         }
                         return response.json();
                     })
@@ -170,7 +170,7 @@
                         slotsDiv.innerHTML = '';
 
                         if (slots.length === 0) {
-                            slotsDiv.innerHTML = '<p class="text-danger">No slots available for this date.</p>';
+                            slotsDiv.innerHTML = '<p class="text-danger">No hay horarios disponibles para esta fecha.</p>';
                         } else {
                             slots.forEach(slot => {
                                 const btn = document.createElement('button');

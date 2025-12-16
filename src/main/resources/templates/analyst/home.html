@@ -89,42 +89,44 @@
     <div style="padding-top: 80px;"></div>
 
     <div class="container mt-5">
-        <h1>Bienvenido, Analista <span th:text="${username}">User</span>!</h1>
+        <h1>Bienvenido, Analista <span th:text="${username}">Usuario</span>!</h1>
         <p class="lead">Seleccione una opción del menú o utilice los enlaces rápidos a continuación.</p>
 
         <div class="row mt-4">
             <div class="col-12 mb-4">
                 <div class="card shadow">
-                    <div class="card-header bg-primary text-white">Scheduled Appointments</div>
+                    <div class="card-header bg-primary text-white">Citas Programadas</div>
                     <div class="card-body">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Date & Time</th>
-                                    <th>Patient</th>
-                                    <th>Doctor</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Fecha y Hora</th>
+                                    <th>Paciente</th>
+                                    <th>Médico</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="appointment : ${appointments}">
                                     <td th:text="${#temporals.format(appointment.scheduledAt, 'yyyy-MM-dd HH:mm')}">
                                         2023-10-10 10:00</td>
-                                    <td th:text="${appointment.patientId}">Patient ID</td>
+                                    <td
+                                        th:text="${patientDnis != null ? patientDnis.get(appointment.patientId) : appointment.patientId}">
+                                        DNI Paciente</td>
                                     <!--Ideally should be name, but using ID for now as Appointment model only has IDs-->
-                                    <td th:text="${appointment.doctorId}">Doctor ID</td>
+                                    <td th:text="${appointment.doctorId}">ID Médico</td>
                                     <td th:text="${appointment.status}">PROGRAMADA</td>
                                     <td>
                                         <form th:action="@{/appointments/{id}/cancel(id=${appointment.id})}"
                                             method="post">
                                             <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Are you sure?')">Cancel</button>
+                                                onclick="return confirm('¿Estás seguro?')">Cancelar</button>
                                         </form>
                                     </td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(appointments)}">
-                                    <td colspan="5" class="text-center">No scheduled appointments.</td>
+                                    <td colspan="5" class="text-center">No hay citas programadas.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -134,25 +136,23 @@
         </div>
 
         <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="card shadow hover-card">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Nuevo usuario</h5>
-                        <p class="card-text">Registrar un nuevo paciente o médico.</p>
-                        <a th:href="@{/analyst/register-user}" class="btn btn-primary">Ir a Registro</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card shadow hover-card mt-3 mt-md-0">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Nueva cita</h5>
-                        <p class="card-text">Programar una nueva cita para un paciente.</p>
-                        <a th:href="@{/analyst/schedule-appointment}" class="btn btn-success">Programe ahora</a>
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white">Buscar Paciente</div>
+                    <div class="card-body">
+                        <form th:action="@{/analyst/patients/search}" method="get" class="d-flex gap-2">
+                            <input type="text" name="dni" class="form-control" placeholder="Ingrese el DNI del paciente"
+                                required>
+                            <button type="submit" class="btn btn-info text-white">Buscar</button>
+                        </form>
+                        <div th:if="${param.error}" class="alert alert-danger mt-3 mb-0">
+                            Paciente no encontrado.
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

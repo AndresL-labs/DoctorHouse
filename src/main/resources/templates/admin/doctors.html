@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Manage Doctors - DoctorHouse</title>
+    <title>Gestionar Médicos - DoctorHouse</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -66,23 +66,23 @@
 
         <div class="container mt-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Doctors Management</h2>
-                <a th:href="@{/admin/home}" class="btn btn-secondary">Back to Dashboard</a>
+                <h2>Gestión de Médicos</h2>
+                <a th:href="@{/admin/home}" class="btn btn-secondary">Volver al Panel</a>
             </div>
 
             <div class="card mb-4 shadow-sm">
                 <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Active Doctors</h5>
+                    <h5 class="mb-0">Médicos Activos</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Specialty</th>
-                                <th>License</th>
-                                <th>Action</th>
+                                <th>Nombre</th>
+                                <th>Especialidad</th>
+                                <th>Licencia</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,12 +93,12 @@
                                 <td th:text="${doc.licenseNumber}">LIC-123</td>
                                 <td>
                                     <form th:action="@{'/admin/doctors/' + ${doc.id} + '/deactivate'}" method="post">
-                                        <button type="submit" class="btn btn-sm btn-danger">Deactivate</button>
+                                        <button type="submit" class="btn btn-sm btn-danger">Desactivar</button>
                                     </form>
                                 </td>
                             </tr>
                             <tr th:if="${#lists.isEmpty(activeDoctors)}">
-                                <td colspan="5" class="text-center text-muted">No active doctors found.</td>
+                                <td colspan="5" class="text-center text-muted">No se encontraron médicos activos.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -107,17 +107,17 @@
 
             <div class="card shadow-sm">
                 <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0">Inactive Doctors</h5>
+                    <h5 class="mb-0">Médicos Inactivos</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Specialty</th>
-                                <th>License</th>
-                                <th>Action</th>
+                                <th>Nombre</th>
+                                <th>Especialidad</th>
+                                <th>Licencia</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -128,12 +128,12 @@
                                 <td th:text="${doc.licenseNumber}">LIC-123</td>
                                 <td>
                                     <form th:action="@{'/admin/doctors/' + ${doc.id} + '/activate'}" method="post">
-                                        <button type="submit" class="btn btn-sm btn-success">Activate</button>
+                                        <button type="submit" class="btn btn-sm btn-success">Activar</button>
                                     </form>
                                 </td>
                             </tr>
                             <tr th:if="${#lists.isEmpty(inactiveDoctors)}">
-                                <td colspan="5" class="text-center text-muted">No inactive doctors found.</td>
+                                <td colspan="5" class="text-center text-muted">No se encontraron médicos inactivos.</td>
                             </tr>
                         </tbody>
                     </table>

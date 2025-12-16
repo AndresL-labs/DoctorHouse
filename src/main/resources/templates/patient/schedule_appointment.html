@@ -67,20 +67,20 @@
                 <div class="col-md-8">
                     <div class="card shadow">
                         <div class="card-header bg-success text-white">
-                            <h4 class="mb-0">Schedule Your Appointment</h4>
+                            <h4 class="mb-0">Programe su Cita</h4>
                         </div>
                         <div class="card-body">
                             <div th:if="${param.success}" class="alert alert-success">
-                                Appointment scheduled successfully!
+                                ¡Cita programada con éxito!
                             </div>
 
                             <form id="scheduleForm" th:action="@{/patient/schedule-appointment}" method="post">
                                 <div th:if="${error}" class="alert alert-danger" th:text="${error}">Error</div>
 
                                 <div class="mb-3">
-                                    <label for="doctor" class="form-label">Select Doctor</label>
+                                    <label for="doctor" class="form-label">Seleccionar Médico</label>
                                     <select class="form-select" id="doctor" name="doctorId" required>
-                                        <option value="" disabled selected>Choose a doctor...</option>
+                                        <option value="" disabled selected>Elige un médico...</option>
                                         <option th:each="doc : ${doctors}" th:value="${doc.id}"
                                             th:text="${doc.firstName + ' ' + doc.lastName + ' (' + doc.specialty + ')'}">
                                         </option>
@@ -88,17 +88,17 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="date" class="form-label">Select Date</label>
+                                    <label for="date" class="form-label">Seleccionar Fecha</label>
                                     <input type="date" class="form-control" id="date" name="date" required>
                                 </div>
 
                                 <div class="d-grid mb-3">
-                                    <button type="button" class="btn btn-secondary" onclick="checkAvailability()">Check
-                                        Availability</button>
+                                    <button type="button" class="btn btn-secondary" onclick="checkAvailability()">Verificar
+                                        Disponibilidad</button>
                                 </div>
 
                                 <div id="slotsContainer" class="mb-3" style="display:none;">
-                                    <h5>Available Slots</h5>
+                                    <h5>Horarios Disponibles</h5>
                                     <div class="d-flex flex-wrap gap-2" id="slots">
                                         <!-- Slots will be injected here -->
                                     </div>
@@ -106,9 +106,9 @@
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-success" disabled id="submitBtn">Book
-                                        Appointment</button>
-                                    <a th:href="@{/patient/home}" class="btn btn-secondary">Cancel</a>
+                                    <button type="submit" class="btn btn-success" disabled id="submitBtn">Reservar
+                                        Cita</button>
+                                    <a th:href="@{/patient/home}" class="btn btn-secondary">Cancelar</a>
                                 </div>
                             </form>
                         </div>
@@ -124,7 +124,7 @@
                 const date = document.getElementById('date').value;
 
                 if (!doctorId || !date) {
-                    alert('Please select a doctor and a date.');
+                    alert('Por favor, seleccione un médico y una fecha.');
                     return;
                 }
 
@@ -132,7 +132,7 @@
                     .then(async response => {
                         if (!response.ok) {
                             const err = await response.json();
-                            throw new Error(err.error || 'Error checking availability');
+                            throw new Error(err.error || 'Error al verificar la disponibilidad');
                         }
                         return response.json();
                     })
@@ -142,7 +142,7 @@
                         slotsDiv.innerHTML = '';
 
                         if (slots.length === 0) {
-                            slotsDiv.innerHTML = '<p class="text-danger">No slots available for this date.</p>';
+                            slotsDiv.innerHTML = '<p class="text-danger">No hay horarios disponibles para esta fecha.</p>';
                         } else {
                             slots.forEach(slot => {
                                 const btn = document.createElement('button');

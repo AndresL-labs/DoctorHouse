@@ -15,6 +15,7 @@ public class DashboardController {
     private final com.example.doctorhouse.domain.port.in.ListAllScheduledAppointmentsUseCase listAllScheduledAppointmentsUseCase;
 
     private final com.example.doctorhouse.domain.port.out.UserRepositoryPort userRepositoryPort;
+    private final com.example.doctorhouse.domain.port.out.PatientRepositoryPort patientRepositoryPort;
 
     @GetMapping("/home")
     public String home(Authentication authentication) {
@@ -55,7 +56,20 @@ public class DashboardController {
     @GetMapping("/analyst/home")
     public String analystHome(Model model, Authentication authentication) {
         model.addAttribute("username", getUserName(authentication.getName()));
-        model.addAttribute("appointments", listAllScheduledAppointmentsUseCase.execute());
+
+        java.util.List<com.example.doctorhouse.domain.model.Appointment> appointments = listAllScheduledAppointmentsUseCase
+                .execute();
+        model.addAttribute("appointments", appointments);
+
+        java.util.Map<Long, String> patientDnis = new java.util.HashMap<>();
+        for (com.example.doctorhouse.domain.model.Appointment app : appointments) {
+            if (app.getPatientId() != null && !patientDnis.containsKey(app.getPatientId())) {
+                patientRepositoryPort.findById(app.getPatientId())
+                        .ifPresent(p -> patientDnis.put(app.getPatientId(), p.getDni()));
+            }
+        }
+        model.addAttribute("patientDnis", patientDnis);
+
         return "analyst/home";
     }
 

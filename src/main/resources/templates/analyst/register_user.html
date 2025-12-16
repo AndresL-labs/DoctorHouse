@@ -65,7 +65,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                         class="bi bi-heart-pulse-fill me-2" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
-                            d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H1.475ZM8 1a2.5 2.5 0 0 1 2.5 2.5V5.5a.5.5 0 0 1-1 0V3.5a1.5.5 0 0 0-3 0V5.5a.5.5 0 0 1-1 0V3.5A2.5.5 0 0 1 8 1" />
+                            d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H1.475ZM8 1a2.5 2.5 0 0 1 2.5 2.5V5.5a.5.5 0 0 1-1 0V3.5a1.5 1.5 0 0 0-3 0V5.5a.5.5 0 0 1-1 0V3.5A2.5 2.5 0 0 1 8 1" />
                     </svg>DoctorHouse
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -96,7 +96,7 @@
                         </div>
                         <div class="card-body">
                             <div th:if="${param.success}" class="alert alert-success">
-                                Paciente registrado con éxito!
+                                ¡Paciente registrado con éxito!
                             </div>
                             <div th:if="${error}" class="alert alert-danger" th:text="${error}">
                                 Mensaje de error aquí.
@@ -174,7 +174,7 @@
 
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-primary">Registrar paciente</button>
-                                    <a th:href="@{/analyst/home}" class="btn btn-secondary">Cancel</a>
+                                    <a th:href="@{/analyst/home}" class="btn btn-secondary">Cancelar</a>
                                 </div>
                             </form>
                         </div>

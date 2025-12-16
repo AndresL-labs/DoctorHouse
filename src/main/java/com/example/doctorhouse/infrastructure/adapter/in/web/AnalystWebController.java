@@ -26,6 +26,7 @@ import java.util.List;
 public class AnalystWebController {
 
     private final com.example.doctorhouse.domain.port.in.RegisterPatientUseCase registerPatientUseCase;
+    private final com.example.doctorhouse.domain.port.out.PatientRepositoryPort patientRepositoryPort;
 
     @GetMapping("/register-user")
     public String registerUser(org.springframework.ui.Model model) {
@@ -93,6 +94,22 @@ public class AnalystWebController {
             model.addAttribute("error", "An error occurred while scheduling the appointment.");
             model.addAttribute("doctors", listDoctorsUseCase.findAllDoctors());
             return "analyst/schedule_appointment";
+        }
+    }
+
+    @GetMapping("/patients/search")
+    public String searchPatient(@RequestParam(required = false) String dni, Model model) {
+        if (dni == null || dni.isEmpty()) {
+            return "redirect:/analyst/home";
+        }
+
+        java.util.Optional<com.example.doctorhouse.domain.model.Patient> patientOpt = patientRepositoryPort
+                .findByDni(dni);
+        if (patientOpt.isPresent()) {
+            model.addAttribute("patient", patientOpt.get());
+            return "analyst/patient_details";
+        } else {
+            return "redirect:/analyst/home?error=PatientNotFound";
         }
     }
 }
