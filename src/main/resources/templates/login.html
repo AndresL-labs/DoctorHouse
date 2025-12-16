@@ -1,48 +1,206 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Iniciar sesión - DoctorHouse</title>
-    <!-- Use a simple CDN for styling to look better than raw HTML -->
+    <title>DoctorHouse - Tu Salud, Nuestra Prioridad</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap and Google Fonts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            display: flex;
-            align-items: center;
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #f5f5f5;
-            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
         }
-        .form-signin {
-            width: 100%;
-            max-width: 330px;
-            padding: 15px;
-            margin: auto;
+
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #0d6efd !important;
+            font-size: 1.5rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+            padding: 100px 0;
+            margin-bottom: 50px;
+        }
+
+        .hero-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #0d6efd;
+            margin-bottom: 20px;
+        }
+
+        .card-feature {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border: none;
+        }
+
+        .form-floating input:focus {
+            box-shadow: none;
+            border-color: #0d6efd;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 40px 0;
+            margin-top: 80px;
         }
     </style>
 </head>
-<body class="text-center">
-<main class="form-signin">
-    <form th:action="@{/login}" method="post">
-        <h1 class="h3 mb-3 fw-normal">Por favor inicie sesión.</h1>
-        <div th:if="${param.error}" class="alert alert-danger">
-            Nombre de usuario o contraseña no válidos.
-        </div>
-        <div th:if="${param.logout}" class="alert alert-success">
-            Se ha cerrado la sesión.
-        </div>
-        <div class="form-floating mb-3">
-            <input type="email" name="username" class="form-control" id="floatingInput" placeholder="name@example.com" required autofocus>
-            <label for="floatingInput">Correo electrónico</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
-            <label for="floatingPassword">Contraseña</label>
-        </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar sesión</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2024</p>
-    </form>
-</main>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-heart-pulse-fill me-2" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H1.475ZM8 1a2.5 2.5 0 0 1 2.5 2.5V5.5a.5.5 0 0 1-1 0V3.5a1.5 1.5 0 0 0-3 0V5.5a.5.5 0 0 1-1 0V3.5A2.5 2.5 0 0 1 8 1" />
+                </svg>DoctorHouse
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Servicios</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Login -->
+    <section class="hero-section d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 hero-title">Cuidamos de ti y de tu familia</h1>
+                    <p class="hero-subtitle">Gestión médica moderna, eficiente y al alcance de todos. Agenda tus citas,
+                        revisa tu historial y conecta con los mejores especialistas.</p>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="login-card">
+                        <h3 class="fw-bold mb-4 text-center text-primary">Iniciar Sesión</h3>
+
+                        <!-- Login Form -->
+                        <form th:action="@{/login}" method="post">
+                            <div th:if="${param.error}" class="alert alert-danger">
+                                Nombre de usuario o contraseña no válidos.
+                            </div>
+                            <div th:if="${param.logout}" class="alert alert-success">
+                                Se ha cerrado la sesión.
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="email" name="username" class="form-control" id="floatingInput"
+                                    placeholder="name@example.com" required>
+                                <label for="floatingInput">Correo electrónico</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" name="password" class="form-control" id="floatingPassword"
+                                    placeholder="Password" required>
+                                <label for="floatingPassword">Contraseña</label>
+                            </div>
+
+                            <button class="w-100 btn btn-lg btn-primary rounded-pill mb-3"
+                                type="submit">Ingresar</button>
+                            <p class="text-center text-muted small">&copy; 2024 DoctorHouse</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="services" class="container py-5">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h6 class="text-primary fw-bold text-uppercase">Nuestros Servicios</h6>
+                <h2 class="fw-bold">¿Por qué elegir DoctorHouse?</h2>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card card-feature h-100 p-4 text-center">
+                    <div class="card-body">
+                        <div class="feature-icon">📅</div>
+                        <h4 class="card-title mt-3">Agendamiento Rácil</h4>
+                        <p class="card-text text-muted">Reserva tus citas médicas en segundos, desde la comodidad de tu
+                            hogar.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-feature h-100 p-4 text-center">
+                    <div class="card-body">
+                        <div class="feature-icon">📋</div>
+                        <h4 class="card-title mt-3">Historial Digital</h4>
+                        <p class="card-text text-muted">Accede a tu historial clínico completo y seguro en cualquier
+                            momento.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-feature h-100 p-4 text-center">
+                    <div class="card-body">
+                        <div class="feature-icon">👨‍⚕️</div>
+                        <h4 class="card-title mt-3">Especialistas Calificados</h4>
+                        <p class="card-text text-muted">Contamos con un equipo de profesionales listos para atenderte.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 DoctorHouse. Todos los derechos reservados.</p>
+            <small class="text-white-50">Diseñado para tu bienestar.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -14,6 +14,8 @@ public class DashboardController {
     private final com.example.doctorhouse.domain.port.in.ListPatientAppointmentsUseCase listPatientAppointmentsUseCase;
     private final com.example.doctorhouse.domain.port.in.ListAllScheduledAppointmentsUseCase listAllScheduledAppointmentsUseCase;
 
+    private final com.example.doctorhouse.domain.port.out.UserRepositoryPort userRepositoryPort;
+
     @GetMapping("/home")
     public String home(Authentication authentication) {
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MEDICO"))) {
@@ -28,9 +30,15 @@ public class DashboardController {
         return "redirect:/login?error"; // Redirect to login if no role matches, instead of unmapped /
     }
 
+    private String getUserName(String email) {
+        return userRepositoryPort.findByEmail(email)
+                .map(user -> user.getFirstName() + " " + user.getLastName())
+                .orElse(email);
+    }
+
     @GetMapping("/doctor/home")
     public String doctorHome(Model model, Authentication authentication) {
-        model.addAttribute("username", authentication.getName());
+        model.addAttribute("username", getUserName(authentication.getName()));
         model.addAttribute("appointments",
                 listDoctorAppointmentsUseCase.getTodaysAppointments(authentication.getName()));
         return "doctor/home";
@@ -38,7 +46,7 @@ public class DashboardController {
 
     @GetMapping("/patient/home")
     public String patientHome(Model model, Authentication authentication) {
-        model.addAttribute("username", authentication.getName());
+        model.addAttribute("username", getUserName(authentication.getName()));
         model.addAttribute("appointmentsGrouped",
                 listPatientAppointmentsUseCase.getAppointmentsGrouped(authentication.getName()));
         return "patient/home";
@@ -46,7 +54,7 @@ public class DashboardController {
 
     @GetMapping("/analyst/home")
     public String analystHome(Model model, Authentication authentication) {
-        model.addAttribute("username", authentication.getName());
+        model.addAttribute("username", getUserName(authentication.getName()));
         model.addAttribute("appointments", listAllScheduledAppointmentsUseCase.execute());
         return "analyst/home";
     }
