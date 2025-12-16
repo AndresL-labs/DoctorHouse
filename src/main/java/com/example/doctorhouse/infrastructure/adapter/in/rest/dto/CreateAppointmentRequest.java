@@ -1,4 +1,4 @@
-package com.example.doctorhouse.infrastructure.adapter.in.dto;
+package com.example.doctorhouse.infrastructure.adapter.in.rest.dto;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
