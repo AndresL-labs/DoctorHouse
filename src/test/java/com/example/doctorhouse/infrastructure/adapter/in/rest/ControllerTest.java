@@ -66,6 +66,17 @@ class ControllerTest {
     @MockBean
     private com.example.doctorhouse.infrastructure.config.security.JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @org.junit.jupiter.api.BeforeEach
+    void setUp() throws Exception {
+        org.mockito.Mockito.doAnswer(invocation -> {
+            jakarta.servlet.ServletRequest req = invocation.getArgument(0);
+            jakarta.servlet.ServletResponse res = invocation.getArgument(1);
+            jakarta.servlet.FilterChain chain = invocation.getArgument(2);
+            chain.doFilter(req, res);
+            return null;
+        }).when(jwtAuthenticationFilter).doFilter(any(), any(), any());
+    }
+
     @Test
     void shouldCreateDoctor() throws Exception {
         DoctorRequest request = new DoctorRequest();
