@@ -8,21 +8,21 @@
 
 <body>
     <div class="container mt-5">
-        <h1>Welcome, Doctor <span th:text="${username}">User</span>!</h1>
-        <p class="lead">Here are your appointments for today.</p>
+        <h1>Bienvenido, Doctor <span th:text="${username}">User</span>!</h1>
+        <p class="lead">Aquí están tus citas para hoy.</p>
 
         <!-- Placeholder for appointments list -->
         <div class="card">
-            <div class="card-header">Today's Appointments</div>
+            <div class="card-header">Citas de hoy</div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Time</th>
-                            <th>Patient</th>
-                            <th>Age/BirthDate</th>
-                            <th>Notes/Allergies</th>
-                            <th>Status</th>
+                            <th>Hora</th>
+                            <th>Paciente</th>
+                            <th>Edad/Fecha de nacimiento</th>
+                            <th>Notas/Alergias</th>
+                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,7 +46,7 @@
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(appointments)}">
-                            <td colspan="5" class="text-center">No appointments for today.</td>
+                            <td colspan="5" class="text-center">No hay citas para hoy.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -54,7 +54,7 @@
         </div>
 
         <form th:action="@{/logout}" method="post" class="mt-4">
-            <button type="submit" class="btn btn-danger">Logout</button>
+            <button type="submit" class="btn btn-danger">Cerrar sesión</button>
         </form>
     </div>
 </body>

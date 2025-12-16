@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Analyst Dashboard</title>
+    <title>Dashboard analista</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/analyst/home}">Home</a>
+                        <a class="nav-link active" th:href="@{/analyst/home}">Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/analyst/register-user}">Registrar Usuario</a>
@@ -27,15 +27,15 @@
                     </li>
                 </ul>
                 <form th:action="@{/logout}" method="post" class="d-flex">
-                    <button class="btn btn-outline-danger" type="submit">Logout</button>
+                    <button class="btn btn-outline-danger" type="submit">Cerrar sesión</button>
                 </form>
             </div>
         </div>
     </nav>
 
     <div class="container mt-5">
-        <h1>Welcome, Analyst <span th:text="${username}">User</span>!</h1>
-        <p class="lead">Select an option from the menu or use the quick links below.</p>
+        <h1>Bienvenido, Analista <span th:text="${username}">User</span>!</h1>
+        <p class="lead">Seleccione una opción del menú o utilice los enlaces rápidos a continuación.</p>
 
         <div class="row mt-4">
             <div class="col-12 mb-4">
@@ -82,18 +82,18 @@
             <div class="col-md-6">
                 <div class="card shadow hover-card">
                     <div class="card-body text-center">
-                        <h5 class="card-title">New User</h5>
-                        <p class="card-text">Register a new patient or doctor.</p>
-                        <a th:href="@{/analyst/register-user}" class="btn btn-primary">Go to Registration</a>
+                        <h5 class="card-title">Nuevo usuario</h5>
+                        <p class="card-text">Registrar un nuevo paciente o médico.</p>
+                        <a th:href="@{/analyst/register-user}" class="btn btn-primary">Ir a Registro</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="card shadow hover-card mt-3 mt-md-0">
                     <div class="card-body text-center">
-                        <h5 class="card-title">New Appointment</h5>
-                        <p class="card-text">Schedule a new appointment for a patient.</p>
-                        <a th:href="@{/analyst/schedule-appointment}" class="btn btn-success">Schedule Now</a>
+                        <h5 class="card-title">Nueva cita</h5>
+                        <p class="card-text">Programar una nueva cita para un paciente.</p>
+                        <a th:href="@{/analyst/schedule-appointment}" class="btn btn-success">Programe ahora</a>
                     </div>
                 </div>
             </div>

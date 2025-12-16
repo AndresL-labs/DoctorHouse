@@ -12,12 +12,12 @@
             <div class="col-md-8">
                 <div class="card shadow">
                     <div class="card-header bg-success text-white">
-                        <h4 class="mb-0">Medical Report</h4>
+                        <h4 class="mb-0">Reporte medico</h4>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <strong>Date / Time:</strong>
+                                <strong>Fecha / Hora:</strong>
                                 <span th:text="${record.startedAt} + ' - ' + ${record.finishedAt}">10:00 - 10:30</span>
                             </div>
                         </div>
@@ -26,23 +26,23 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Diagnosis</label>
-                            <p class="form-control-plaintext border rounded p-2" th:text="${record.diagnosis}">Diagnosis
+                            <p class="form-control-plaintext border rounded p-2" th:text="${record.diagnosis}">Diagnostico
                                 here</p>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Prescribed Treatment</label>
-                            <p class="form-control-plaintext border rounded p-2" th:text="${record.treatment}">Treatment
-                                here</p>
+                            <p class="form-control-plaintext border rounded p-2" th:text="${record.treatment}">Tratamiento
+                                aquí</p>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Observations</label>
-                            <p class="form-control-plaintext border rounded p-2" th:text="${record.observations}">Notes
+                            <label class="form-label fw-bold">Observaciones</label>
+                            <p class="form-control-plaintext border rounded p-2" th:text="${record.observations}">Notas
                                 here</p>
                         </div>
 
-                        <h5 class="mt-4 text-primary">Vitals</h5>
+                        <h5 class="mt-4 text-primary">Partes vitales</h5>
                         <div class="row text-center">
                             <div class="col-md-4">
                                 <div class="card bg-light">
@@ -72,7 +72,7 @@
 
                     </div>
                     <div class="card-footer text-end">
-                        <a href="/patient/home" class="btn btn-secondary">Back to Dashboard</a>
+                        <a href="/patient/home" class="btn btn-secondary">Volver al panel de control</a>
                     </div>
                 </div>
             </div>
