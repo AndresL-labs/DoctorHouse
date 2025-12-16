@@ -23,4 +23,11 @@ public class ListDoctorAppointmentsService implements ListDoctorAppointmentsUseC
         LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);
         return appointmentRepositoryPort.findByDoctorEmailAndDateRange(doctorEmail, startOfDay, endOfDay);
     }
+
+    @Override
+    public List<AppointmentWithPatient> getTomorrowsAppointments(String doctorEmail) {
+        LocalDateTime startOfDay = LocalDate.now().plusDays(1).atStartOfDay();
+        LocalDateTime endOfDay = LocalDate.now().plusDays(1).atTime(LocalTime.MAX);
+        return appointmentRepositoryPort.findByDoctorEmailAndDateRange(doctorEmail, startOfDay, endOfDay);
+    }
 }

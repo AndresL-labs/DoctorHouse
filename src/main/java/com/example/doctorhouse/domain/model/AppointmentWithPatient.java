@@ -25,4 +25,6 @@ public class AppointmentWithPatient {
     private LocalDate patientBirthDate;
     private String patientAllergies;
     private String patientBloodType;
+    private String patientAddress;
+    private String patientPhone;
 }

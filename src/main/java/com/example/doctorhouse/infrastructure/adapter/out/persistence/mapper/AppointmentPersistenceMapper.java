@@ -26,6 +26,8 @@ public interface AppointmentPersistenceMapper {
     @Mapping(source = "entity.patient.birthDate", target = "patientBirthDate")
     @Mapping(source = "entity.patient.allergies", target = "patientAllergies")
     @Mapping(source = "entity.patient.bloodType", target = "patientBloodType")
+    @Mapping(source = "entity.patient.address", target = "patientAddress")
+    @Mapping(source = "entity.patient.phone", target = "patientPhone")
     com.example.doctorhouse.domain.model.AppointmentWithPatient toAppointmentWithPatient(AppointmentEntity entity);
 
     @Mapping(source = "entity.id", target = "id")

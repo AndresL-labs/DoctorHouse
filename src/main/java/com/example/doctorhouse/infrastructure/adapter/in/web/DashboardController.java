@@ -42,6 +42,8 @@ public class DashboardController {
         model.addAttribute("username", getUserName(authentication.getName()));
         model.addAttribute("appointments",
                 listDoctorAppointmentsUseCase.getTodaysAppointments(authentication.getName()));
+        model.addAttribute("tomorrowsAppointments",
+                listDoctorAppointmentsUseCase.getTomorrowsAppointments(authentication.getName()));
         return "doctor/home";
     }
 

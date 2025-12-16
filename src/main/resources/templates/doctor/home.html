@@ -79,6 +79,8 @@
                             <tr>
                                 <th>Hora</th>
                                 <th>Paciente</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
                                 <th>Edad/Fecha de nacimiento</th>
                                 <th>Notas/Alergias</th>
                                 <th>Estado</th>
@@ -89,6 +91,8 @@
                                 <td th:text="${#temporals.format(appointment.scheduledAt, 'HH:mm')}">10:00 AM</td>
                                 <td th:text="${appointment.patientName + ' ' + appointment.patientLastName}">John Doe
                                 </td>
+                                <td th:text="${appointment.patientAddress}">Calle Falsa 123</td>
+                                <td th:text="${appointment.patientPhone}">555-1234</td>
                                 <td th:text="${appointment.patientBirthDate}">2000-01-01</td>
                                 <td th:text="${appointment.patientAllergies}">None</td>
                                 <td>
@@ -107,7 +111,52 @@
                                 </td>
                             </tr>
                             <tr th:if="${#lists.isEmpty(appointments)}">
-                                <td colspan="5" class="text-center">No hay citas para hoy.</td>
+                                <td colspan="7" class="text-center">No hay citas para hoy.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tomorrow's Appointments List -->
+            <div class="card mt-4">
+                <div class="card-header">Citas de mañana</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Paciente</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                                <th>Edad/Fecha de nacimiento</th>
+                                <th>Notas/Alergias</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="appointment : ${tomorrowsAppointments}">
+                                <td th:text="${#temporals.format(appointment.scheduledAt, 'HH:mm')}">10:00 AM</td>
+                                <td th:text="${appointment.patientName + ' ' + appointment.patientLastName}">John Doe
+                                </td>
+                                <td th:text="${appointment.patientAddress}">Calle Falsa 123</td>
+                                <td th:text="${appointment.patientPhone}">555-1234</td>
+                                <td th:text="${appointment.patientBirthDate}">2000-01-01</td>
+                                <td th:text="${appointment.patientAllergies}">None</td>
+                                <td>
+                                    <span class="badge bg-secondary"
+                                        th:if="${appointment.status.name() == 'PROGRAMADA'}"
+                                        th:text="${appointment.status}">PROGRAMADA</span>
+                                    <span class="badge bg-success" th:if="${appointment.status.name() == 'COMPLETADA'}"
+                                        th:text="${appointment.status}">COMPLETADA</span>
+                                    <span class="badge bg-success" th:if="${appointment.status.name() == 'FINALIZADA'}"
+                                        th:text="${appointment.status}">FINALIZADA</span>
+                                    <span class="badge bg-danger" th:if="${appointment.status.name() == 'CANCELADA'}"
+                                        th:text="${appointment.status}">CANCELADA</span>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(tomorrowsAppointments)}">
+                                <td colspan="7" class="text-center">No hay citas para mañana.</td>
                             </tr>
                         </tbody>
                     </table>

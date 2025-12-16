@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ListDoctorAppointmentsUseCase {
     List<AppointmentWithPatient> getTodaysAppointments(String doctorEmail);
+
+    List<AppointmentWithPatient> getTomorrowsAppointments(String doctorEmail);
 }
