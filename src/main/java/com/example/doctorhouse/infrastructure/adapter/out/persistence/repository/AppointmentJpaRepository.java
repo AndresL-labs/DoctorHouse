@@ -7,11 +7,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AppointmentJpaRepository extends JpaRepository<AppointmentEntity, Long> {
-    List<AppointmentEntity> findByDoctor_EmailAndScheduledAtBetweenOrderByScheduledAtAsc(String email,
-            LocalDateTime start, LocalDateTime end);
+        List<AppointmentEntity> findByDoctor_EmailAndScheduledAtBetweenOrderByScheduledAtAsc(String email,
+                        LocalDateTime start, LocalDateTime end);
 
-    List<AppointmentEntity> findByPatient_EmailOrderByScheduledAtDesc(String email);
+        List<AppointmentEntity> findByPatient_EmailOrderByScheduledAtDesc(String email);
 
-    List<AppointmentEntity> findByDoctor_IdAndScheduledAtBetweenOrderByScheduledAtAsc(Long doctorId,
-            java.time.LocalDateTime start, java.time.LocalDateTime end);
+        List<AppointmentEntity> findByDoctor_IdAndScheduledAtBetweenOrderByScheduledAtAsc(Long doctorId,
+                        java.time.LocalDateTime start, java.time.LocalDateTime end);
+
+        List<AppointmentEntity> findByStatusOrderByScheduledAtAsc(
+                        com.example.doctorhouse.domain.model.enums.AppointmentStatus status);
 }

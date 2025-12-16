@@ -12,6 +12,7 @@ public class DashboardController {
 
     private final com.example.doctorhouse.domain.port.in.ListDoctorAppointmentsUseCase listDoctorAppointmentsUseCase;
     private final com.example.doctorhouse.domain.port.in.ListPatientAppointmentsUseCase listPatientAppointmentsUseCase;
+    private final com.example.doctorhouse.domain.port.in.ListAllScheduledAppointmentsUseCase listAllScheduledAppointmentsUseCase;
 
     @GetMapping("/home")
     public String home(Authentication authentication) {
@@ -46,6 +47,7 @@ public class DashboardController {
     @GetMapping("/analyst/home")
     public String analystHome(Model model, Authentication authentication) {
         model.addAttribute("username", authentication.getName());
+        model.addAttribute("appointments", listAllScheduledAppointmentsUseCase.execute());
         return "analyst/home";
     }
 

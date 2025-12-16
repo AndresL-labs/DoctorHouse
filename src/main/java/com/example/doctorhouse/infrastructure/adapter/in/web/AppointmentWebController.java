@@ -19,7 +19,14 @@ public class AppointmentWebController {
     @PostMapping("/{id}/cancel")
     public String cancelAppointment(@PathVariable Long id, Authentication authentication) {
         cancelAppointmentUseCase.cancelAppointment(id, authentication.getName());
-        return "redirect:/patient/home?cancelled";
+
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ANALISTA"))) {
+            return "redirect:/analyst/home?cancelled";
+        } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_PACIENTE"))) {
+            return "redirect:/patient/home?cancelled";
+        }
+
+        return "redirect:/home?cancelled";
     }
 
     @org.springframework.web.bind.annotation.GetMapping("/{id}/report")

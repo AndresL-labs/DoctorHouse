@@ -63,4 +63,14 @@ public class AppointmentJpaAdapter implements AppointmentRepositoryPort {
                 .map(mapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public java.util.List<Appointment> findAllScheduledOrderedByDate() {
+        return jpaRepository
+                .findByStatusOrderByScheduledAtAsc(
+                        com.example.doctorhouse.domain.model.enums.AppointmentStatus.PROGRAMADA)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
 }

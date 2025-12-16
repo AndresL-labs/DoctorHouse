@@ -38,6 +38,47 @@
         <p class="lead">Select an option from the menu or use the quick links below.</p>
 
         <div class="row mt-4">
+            <div class="col-12 mb-4">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">Scheduled Appointments</div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="appointment : ${appointments}">
+                                    <td th:text="${#temporals.format(appointment.scheduledAt, 'yyyy-MM-dd HH:mm')}">
+                                        2023-10-10 10:00</td>
+                                    <td th:text="${appointment.patientId}">Patient ID</td>
+                                    <!--Ideally should be name, but using ID for now as Appointment model only has IDs-->
+                                    <td th:text="${appointment.doctorId}">Doctor ID</td>
+                                    <td th:text="${appointment.status}">PROGRAMADA</td>
+                                    <td>
+                                        <form th:action="@{/appointments/{id}/cancel(id=${appointment.id})}"
+                                            method="post">
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Are you sure?')">Cancel</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(appointments)}">
+                                    <td colspan="5" class="text-center">No scheduled appointments.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
             <div class="col-md-6">
                 <div class="card shadow hover-card">
                     <div class="card-body text-center">
