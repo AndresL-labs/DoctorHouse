@@ -14,8 +14,12 @@ import java.time.LocalTime;
 public class MedicalRecord {
     private Long id;
     private Long appointmentId;
+    @jakarta.validation.constraints.NotBlank(message = "Diagnosis is required")
     private String diagnosis;
+
+    @jakarta.validation.constraints.NotBlank(message = "Treatment is required")
     private String treatment;
+
     private String observations;
     private String bloodPressure;
     private Integer heartRate;

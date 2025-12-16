@@ -37,10 +37,20 @@ public class AnalystSchedulingService
 
     @Override
     public List<LocalTime> getAvailableSlots(Long doctorId, LocalDate date) {
+        if (date.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Cannot schedule appointments for past dates.");
+        }
+
         // Define working hours: 08:00 to 17:00
         List<LocalTime> allSlots = new ArrayList<>();
         for (int hour = 8; hour < 17; hour++) {
             allSlots.add(LocalTime.of(hour, 0));
+        }
+
+        // Filter for specific times if date is today
+        if (date.equals(LocalDate.now())) {
+            LocalTime now = LocalTime.now();
+            allSlots.removeIf(slot -> slot.isBefore(now));
         }
 
         // Fetch existing appointments
@@ -66,6 +76,9 @@ public class AnalystSchedulingService
     @Override
     @Transactional
     public void scheduleAppointment(Long doctorId, String patientDni, LocalDateTime dateTime) {
+        if (dateTime.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Cannot schedule appointment in the past");
+        }
         // Find Patient
         Patient patient = patientRepositoryPort.findByDni(patientDni)
                 .orElseThrow(() -> new RuntimeException("Patient with DNI " + patientDni + " not found"));

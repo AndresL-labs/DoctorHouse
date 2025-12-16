@@ -14,11 +14,15 @@
             <div class="mb-3">
                 <label for="diagnosis" class="form-label">Diagnóstico</label>
                 <textarea class="form-control" id="diagnosis" th:field="*{diagnosis}" required></textarea>
+                <div class="text-danger" th:if="${#fields.hasErrors('diagnosis')}" th:errors="*{diagnosis}">Error de
+                    diagnóstico</div>
             </div>
 
             <div class="mb-3">
                 <label for="treatment" class="form-label">Tratamiento</label>
                 <textarea class="form-control" id="treatment" th:field="*{treatment}"></textarea>
+                <div class="text-danger" th:if="${#fields.hasErrors('treatment')}" th:errors="*{treatment}">Error de
+                    tratamiento</div>
             </div>
 
             <div class="mb-3">

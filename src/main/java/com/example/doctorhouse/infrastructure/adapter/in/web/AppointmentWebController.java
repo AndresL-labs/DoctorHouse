@@ -50,7 +50,13 @@ public class AppointmentWebController {
 
     @PostMapping("/{id}/finish")
     public String finishAppointment(@PathVariable Long id,
-            @org.springframework.web.bind.annotation.ModelAttribute com.example.doctorhouse.domain.model.MedicalRecord medicalRecord) {
+            @jakarta.validation.Valid @org.springframework.web.bind.annotation.ModelAttribute("medicalRecord") com.example.doctorhouse.domain.model.MedicalRecord medicalRecord,
+            org.springframework.validation.BindingResult bindingResult,
+            org.springframework.ui.Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("appointmentId", id);
+            return "doctor/finish_appointment";
+        }
         finishAppointmentUseCase.finishAppointment(id, medicalRecord);
         return "redirect:/doctor/home?finished";
     }

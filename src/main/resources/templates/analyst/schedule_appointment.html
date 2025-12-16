@@ -76,7 +76,13 @@
             }
 
             fetch(`/analyst/schedule-item/availability?doctorId=${doctorId}&date=${date}`)
-                .then(response => response.json())
+                .then(async response => {
+                    if (!response.ok) {
+                        const err = await response.json();
+                        throw new Error(err.error || 'Error checking availability');
+                    }
+                    return response.json();
+                })
                 .then(slots => {
                     const container = document.getElementById('slotsContainer');
                     const slotsDiv = document.getElementById('slots');
@@ -100,7 +106,9 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Error checking availability.');
+                    // Create alerts if not exist or reuse
+                    // Ideally use a nice UI element but alert is simple as requested "mensajito"
+                    alert(error.message);
                 });
         }
 

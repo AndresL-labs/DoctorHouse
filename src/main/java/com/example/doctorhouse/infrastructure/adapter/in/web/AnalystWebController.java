@@ -66,16 +66,33 @@ public class AnalystWebController {
 
     @GetMapping("/schedule-item/availability")
     @ResponseBody
-    public java.util.List<java.time.LocalTime> getAvailability(@RequestParam Long doctorId, @RequestParam String date) {
-        return checkAvailabilityUseCase.getAvailableSlots(doctorId, java.time.LocalDate.parse(date));
+    public org.springframework.http.ResponseEntity<?> getAvailability(@RequestParam Long doctorId,
+            @RequestParam String date) {
+        try {
+            return org.springframework.http.ResponseEntity
+                    .ok(checkAvailabilityUseCase.getAvailableSlots(doctorId, java.time.LocalDate.parse(date)));
+        } catch (IllegalArgumentException e) {
+            return org.springframework.http.ResponseEntity.badRequest()
+                    .body(java.util.Collections.singletonMap("error", e.getMessage()));
+        }
     }
 
     @PostMapping("/schedule-appointment")
     public String bookAppointment(@RequestParam Long doctorId, @RequestParam String patientDni,
-            @RequestParam String date, @RequestParam String time) {
-        java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(java.time.LocalDate.parse(date),
-                java.time.LocalTime.parse(time));
-        scheduleAppointmentUseCase.scheduleAppointment(doctorId, patientDni, dateTime);
-        return "redirect:/analyst/schedule-appointment?success";
+            @RequestParam String date, @RequestParam String time, Model model) {
+        try {
+            java.time.LocalDateTime dateTime = java.time.LocalDateTime.of(java.time.LocalDate.parse(date),
+                    java.time.LocalTime.parse(time));
+            scheduleAppointmentUseCase.scheduleAppointment(doctorId, patientDni, dateTime);
+            return "redirect:/analyst/schedule-appointment?success";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("doctors", listDoctorsUseCase.findAllDoctors());
+            return "analyst/schedule_appointment";
+        } catch (Exception e) {
+            model.addAttribute("error", "An error occurred while scheduling the appointment.");
+            model.addAttribute("doctors", listDoctorsUseCase.findAllDoctors());
+            return "analyst/schedule_appointment";
+        }
     }
 }
