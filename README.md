@@ -119,7 +119,7 @@ Run unit and integration tests:
 ### Use Cases Diagram
 
 <p align="center">
-  <img src="diagrams/usecase.png" width="600" alt="Use Case Diagram">
+  <img src="diagrams/usecase.png" width="450" alt="Use Case Diagram">
 </p>
 
 ## 🤝 Contributing
