@@ -138,3 +138,18 @@ Run unit and integration tests:
 | Login Page | Scheduling Appointment | Register |
 |:----------:|:----------:|:-------:|
 | ![Login](screenshots/login.png) | ![Dashboard](screenshots/appointment.png) | ![Register](screenshots/register.png) |
+
+## 👨‍💻 The Team
+
+This project was developed by the **Clan Lovelace** members at **Riwi**, specializing in Backend Development with Java & Spring Boot.
+
+| Developer | Role |
+| :--- | :--- |
+| **Andrés Felipe Londoño** | Backend Developer |
+| **Yohan Exneider Rodas** | Backend Developer |
+| **Pablo Jeremías Campos** | Backend Developer |
+| **Samuel Santiago Rodriguez** | Backend Developer |
+| **Michael Franco Falla** | Backend Developer |
+
+---
+*Developed with ❤️ in Antioquia, Colombia as part of the Riwi education program.*
