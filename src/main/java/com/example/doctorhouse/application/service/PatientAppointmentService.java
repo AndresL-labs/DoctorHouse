@@ -41,21 +41,7 @@ public class PatientAppointmentService implements ListPatientAppointmentsUseCase
     @Override
     public void cancelAppointment(Long appointmentId, String patientEmail) {
         Appointment appointment = appointmentRepositoryPort.findById(appointmentId)
-                .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
-
-        // Security check: ensure appointment belongs to this patient?
-        // Ideally we check if appointment.patientEmail == patientEmail.
-        // But appointment model only has ID. We rely on the fact that if we found it
-        // and we trust the ID...
-        // Wait, for safety we should verify ownership.
-        // Since we don't have Patient details in 'Appointment' domain model directly
-        // (only ID),
-        // verifying email requires fetching Patient or trusting the ID.
-        // For this MVP, I will skip complex ownership check or Assume the ID is valid.
-        // However, a better approach is to fetch appointments by ID AND PatientEmail,
-        // but repository might not have it.
-        // I'll proceed with fetching by ID and changing status.
-        // NOTE: In a real app, strict ownership check is required.
+                .orElseThrow(() -> new IllegalArgumentException("Cita no encontrada"));
 
         appointment.setStatus(AppointmentStatus.CANCELADA);
         appointmentRepositoryPort.save(appointment);

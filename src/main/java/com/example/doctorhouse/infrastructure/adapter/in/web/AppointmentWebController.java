@@ -44,20 +44,21 @@ public class AppointmentWebController {
     @org.springframework.web.bind.annotation.GetMapping("/{id}/finish")
     public String showFinishAppointmentForm(@PathVariable Long id, org.springframework.ui.Model model) {
         model.addAttribute("appointmentId", id);
-        model.addAttribute("medicalRecord", new com.example.doctorhouse.domain.model.MedicalRecord());
+        model.addAttribute("medicalRecord",
+                new com.example.doctorhouse.infrastructure.adapter.in.web.dto.MedicalRecordForm());
         return "doctor/finish_appointment";
     }
 
     @PostMapping("/{id}/finish")
     public String finishAppointment(@PathVariable Long id,
-            @jakarta.validation.Valid @org.springframework.web.bind.annotation.ModelAttribute("medicalRecord") com.example.doctorhouse.domain.model.MedicalRecord medicalRecord,
+            @jakarta.validation.Valid @org.springframework.web.bind.annotation.ModelAttribute("medicalRecord") com.example.doctorhouse.infrastructure.adapter.in.web.dto.MedicalRecordForm medicalRecordForm,
             org.springframework.validation.BindingResult bindingResult,
             org.springframework.ui.Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("appointmentId", id);
             return "doctor/finish_appointment";
         }
-        finishAppointmentUseCase.finishAppointment(id, medicalRecord);
+        finishAppointmentUseCase.finishAppointment(id, medicalRecordForm.toDomain());
         return "redirect:/doctor/home?finished";
     }
 }

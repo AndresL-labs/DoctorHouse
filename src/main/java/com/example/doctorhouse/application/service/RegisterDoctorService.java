@@ -21,10 +21,10 @@ public class RegisterDoctorService implements RegisterDoctorUseCase {
     @Override
     public Doctor registerDoctor(Doctor doctor) {
         if (doctorRepositoryPort.findByEmail(doctor.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new IllegalArgumentException("Email ya existe en el sistema");
         }
         if (doctorRepositoryPort.findByLicenseNumber(doctor.getLicenseNumber()).isPresent()) {
-            throw new IllegalArgumentException("License number already exists");
+            throw new IllegalArgumentException("Número de licencia ya existe en el sistema");
         }
         doctor.setCreatedAt(LocalDateTime.now());
 

@@ -22,10 +22,10 @@ public class LoginService implements LoginUseCase {
     @Override
     public String login(String email, String password) {
         User user = userRepositoryPort.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found or invalid credentials"));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado o credenciales inválidas"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new RuntimeException("Credenciales inválidas");
         }
 
         return tokenProviderPort.generateToken(user);

@@ -21,10 +21,10 @@ public class RegisterPatientService implements RegisterPatientUseCase {
     @Override
     public Patient registerPatient(Patient patient) {
         if (patientRepositoryPort.findByEmail(patient.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new IllegalArgumentException("Email ya existe.");
         }
         if (patientRepositoryPort.findByDni(patient.getDni()).isPresent()) {
-            throw new IllegalArgumentException("DNI already exists");
+            throw new IllegalArgumentException("DNI ya existe.");
         }
         patient.setCreatedAt(LocalDateTime.now());
 

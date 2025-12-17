@@ -5,7 +5,6 @@ import com.example.doctorhouse.domain.port.in.CreateAppointmentUseCase;
 import com.example.doctorhouse.domain.port.out.AppointmentRepositoryPort;
 import jakarta.transaction.Transactional;
 
-
 @Transactional
 public class AppointmentService implements CreateAppointmentUseCase {
 
@@ -17,17 +16,12 @@ public class AppointmentService implements CreateAppointmentUseCase {
 
     @Override
     public Appointment create(Appointment appointment) {
-        // ---------------------------------------------------------
-        // AQUÍ VA TU LÓGICA DE NEGOCIO PURA
-        // ---------------------------------------------------------
-
-        // 1. Validaciones de Negocio (Ejemplos):
-        // - ¿El doctor tiene disponibilidad en ese horario?
-        // - ¿El paciente ya tiene una cita a esa misma hora?
-        // - ¿La duración es válida para esa especialidad?
-
-        // Por ahora, como estamos empezando, confiamos en la validación básica
-        // y pasamos directamente a persistir.
+        if (appointment.getScheduledAt().isBefore(java.time.LocalDateTime.now())) {
+            throw new IllegalArgumentException("La cita debe ser en el futuro");
+        }
+        if (appointment.getDuration() == null || appointment.getDuration() <= 0) {
+            throw new IllegalArgumentException("La duración de la cita debe ser positiva");
+        }
 
         // 2. Guardar usando el Puerto de Salida
         return appointmentRepository.save(appointment);

@@ -1,51 +1,150 @@
 package com.example.doctorhouse.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalTime;
+import java.util.Objects;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class MedicalRecord {
     private Long id;
     private Long appointmentId;
-    @jakarta.validation.constraints.NotBlank(message = "Diagnosis is required")
     private String diagnosis;
-
-    @jakarta.validation.constraints.NotBlank(message = "Treatment is required")
     private String treatment;
-
-    @jakarta.validation.constraints.NotBlank(message = "Observations are required")
     private String observations;
-
-    @jakarta.validation.constraints.NotBlank(message = "Blood Pressure is required")
     private String bloodPressure;
-
-    @jakarta.validation.constraints.NotNull(message = "Heart Rate is required")
-    @jakarta.validation.constraints.Min(value = 1, message = "Heart Rate must be greater than 0")
     private Integer heartRate;
-
-    @jakarta.validation.constraints.NotNull(message = "Weight is required")
-    @jakarta.validation.constraints.DecimalMin(value = "0.1", message = "Weight must be greater than 0")
-    @jakarta.validation.constraints.DecimalMax(value = "250.0", message = "Weight cannot exceed 250 kg")
     private Double weightKg;
-
-    @jakarta.validation.constraints.NotNull(message = "Start Time is required")
     private LocalTime startedAt;
-
-    @jakarta.validation.constraints.NotNull(message = "Finish Time is required")
     private LocalTime finishedAt;
 
-    @jakarta.validation.constraints.AssertTrue(message = "Start time must be before finish time")
-    public boolean isTimeRangeValid() {
-        if (startedAt == null || finishedAt == null) {
-            return true; // Let NotNull handle nulls
-        }
-        return startedAt.isBefore(finishedAt);
+    public MedicalRecord() {
+    }
+
+    public MedicalRecord(Long id, Long appointmentId, String diagnosis, String treatment, String observations,
+            String bloodPressure, Integer heartRate, Double weightKg, LocalTime startedAt, LocalTime finishedAt) {
+        this.id = id;
+        this.appointmentId = appointmentId;
+        this.diagnosis = diagnosis;
+        this.treatment = treatment;
+        this.observations = observations;
+        this.bloodPressure = bloodPressure;
+        this.heartRate = heartRate;
+        this.weightKg = weightKg;
+        this.startedAt = startedAt;
+        this.finishedAt = finishedAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(Long appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getTreatment() {
+        return treatment;
+    }
+
+    public void setTreatment(String treatment) {
+        this.treatment = treatment;
+    }
+
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
+
+    public String getBloodPressure() {
+        return bloodPressure;
+    }
+
+    public void setBloodPressure(String bloodPressure) {
+        this.bloodPressure = bloodPressure;
+    }
+
+    public Integer getHeartRate() {
+        return heartRate;
+    }
+
+    public void setHeartRate(Integer heartRate) {
+        this.heartRate = heartRate;
+    }
+
+    public Double getWeightKg() {
+        return weightKg;
+    }
+
+    public void setWeightKg(Double weightKg) {
+        this.weightKg = weightKg;
+    }
+
+    public LocalTime getStartedAt() {
+        return startedAt;
+    }
+
+    public void setStartedAt(LocalTime startedAt) {
+        this.startedAt = startedAt;
+    }
+
+    public LocalTime getFinishedAt() {
+        return finishedAt;
+    }
+
+    public void setFinishedAt(LocalTime finishedAt) {
+        this.finishedAt = finishedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MedicalRecord that = (MedicalRecord) o;
+        return Objects.equals(id, that.id) && Objects.equals(appointmentId, that.appointmentId)
+                && Objects.equals(diagnosis, that.diagnosis) && Objects.equals(treatment, that.treatment)
+                && Objects.equals(observations, that.observations) && Objects.equals(bloodPressure, that.bloodPressure)
+                && Objects.equals(heartRate, that.heartRate) && Objects.equals(weightKg, that.weightKg)
+                && Objects.equals(startedAt, that.startedAt) && Objects.equals(finishedAt, that.finishedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, appointmentId, diagnosis, treatment, observations, bloodPressure, heartRate, weightKg,
+                startedAt, finishedAt);
+    }
+
+    @Override
+    public String toString() {
+        return "MedicalRecord{" +
+                "id=" + id +
+                ", appointmentId=" + appointmentId +
+                ", diagnosis='" + diagnosis + '\'' +
+                ", treatment='" + treatment + '\'' +
+                ", observations='" + observations + '\'' +
+                ", bloodPressure='" + bloodPressure + '\'' +
+                ", heartRate=" + heartRate +
+                ", weightKg=" + weightKg +
+                ", startedAt=" + startedAt +
+                ", finishedAt=" + finishedAt +
+                '}';
     }
 }

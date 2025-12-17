@@ -15,7 +15,7 @@ public class ManageDoctorsService implements ManageDoctorsUseCase {
     @Override
     public void activateDoctor(Long id) {
         Doctor doctor = doctorRepositoryPort.findById(id)
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
         doctor.setActive(true);
         doctorRepositoryPort.save(doctor);
     }
@@ -23,7 +23,7 @@ public class ManageDoctorsService implements ManageDoctorsUseCase {
     @Override
     public void deactivateDoctor(Long id) {
         Doctor doctor = doctorRepositoryPort.findById(id)
-                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+                .orElseThrow(() -> new RuntimeException("Doctor no encontrado"));
         doctor.setActive(false);
         doctorRepositoryPort.save(doctor);
     }
