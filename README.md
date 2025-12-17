@@ -112,53 +112,13 @@ Run unit and integration tests:
 ```
 
 ## Diagrams
+
+### Database - ER Diagram
 ![ER Diagram](diagrams/ER.png)
 
-### Casos de Uso
+### Use Cases Diagram
 
 ![UseCase Diagram](diagrams/usecase.png)
-
-```mermaid
-usecaseDiagram
-    actor "Administrador" as Admin
-    actor "Analyst" as Analyst
-    actor "Médico" as Doctor
-    actor "Paciente" as Patient
-
-    package "Gestión de Usuarios" {
-        usecase "Registrar Usuario" as UC1
-    }
-
-    package "Gestión de Pacientes" {
-        usecase "Registrar Paciente" as UC3
-        usecase "Buscar Paciente" as UC4
-    }
-
-    package "Gestión de Citas" {
-        usecase "Agendar Cita" as UC5
-        usecase "Cancelar Cita" as UC6
-        usecase "Ver Citas" as UC7
-    }
-
-    package "Gestión Clínica" {
-        usecase "Ver Historia Clínica" as UC8
-        usecase "Atender Cita" as UC9
-    }
-
-    Admin --> UC1
-
-    Analyst --> UC3
-    Analyst --> UC4
-    Analyst --> UC5
-    Analyst --> UC6
-    Analyst --> UC7
-
-    Doctor --> UC7
-    Doctor --> UC8
-    Doctor --> UC9
-
-    Patient --> UC5
-```
 
 ## 🤝 Contributing
 
