@@ -56,15 +56,38 @@ The easiest way to run the application is using Docker.
     git clone <repository-url>
     cd DoctorHouse
     ```
+2.  **Configure Environment**:
+    Create a `.env` file in the root directory based on the example below:
+    ```bash
+    DB_URL=jdbc:postgresql://db:5432/doctorhouse  # For local docker-compose
+    DB_USER=postgres
+    DB_PASSWORD=postgres
+    JWT_SECRET=your_super_secret_key_here
+    PORT=8080
+    ```
 
-2.  **Start the application**:
+3.  **Start the application**:
     ```bash
     docker-compose up --build
     ```
 
-3.  **Access the application**:
+4. **Access the application**:
     *   Web App: `http://localhost:8080`
     *   API Docs: `http://localhost:8080/swagger-ui.html`
+
+5. 🔑 Default Credentials
+
+To test the application immediately, use the following Admin credentials:
+* **Username:** `analista@doctorhouse.com`
+* **Password:** `12345`
+
+
+* **Username:** `house@doctorhouse.com`
+* **Password:** `12345`
+
+
+* **Username:** `ironman@avengers.com`
+* **Password:** `12345`
 
 ## 💻 Local Development
 
@@ -88,6 +111,55 @@ Run unit and integration tests:
 ./mvnw test
 ```
 
+## Diagrams
+![ER Diagram](diagrams/ER.png)
+
+### Casos de Uso
+
+![UseCase Diagram](diagrams/usecase.png)
+
+```mermaid
+usecaseDiagram
+    actor "Administrador" as Admin
+    actor "Analyst" as Analyst
+    actor "Médico" as Doctor
+    actor "Paciente" as Patient
+
+    package "Gestión de Usuarios" {
+        usecase "Registrar Usuario" as UC1
+    }
+
+    package "Gestión de Pacientes" {
+        usecase "Registrar Paciente" as UC3
+        usecase "Buscar Paciente" as UC4
+    }
+
+    package "Gestión de Citas" {
+        usecase "Agendar Cita" as UC5
+        usecase "Cancelar Cita" as UC6
+        usecase "Ver Citas" as UC7
+    }
+
+    package "Gestión Clínica" {
+        usecase "Ver Historia Clínica" as UC8
+        usecase "Atender Cita" as UC9
+    }
+
+    Admin --> UC1
+
+    Analyst --> UC3
+    Analyst --> UC4
+    Analyst --> UC5
+    Analyst --> UC6
+    Analyst --> UC7
+
+    Doctor --> UC7
+    Doctor --> UC8
+    Doctor --> UC9
+
+    Patient --> UC5
+```
+
 ## 🤝 Contributing
 
 1.  Fork the repository.
@@ -95,3 +167,12 @@ Run unit and integration tests:
 3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
 4.  Push to the branch (`git push origin feature/AmazingFeature`).
 5.  Open a Pull Request.
+
+> 🔴 **Live Demo:** [https://doctorhouse-x09r.onrender.com](https://doctorhouse-x09r.onrender.com)
+> *Note: The server runs on a free tier, so it might take ~50 seconds to wake up on the first request.*
+
+## 📸 Screenshots
+
+| Login Page | Scheduling Appointment | Register |
+|:----------:|:----------:|:-------:|
+| ![Login](screenshots/login.png) | ![Dashboard](screenshots/appointment.png) | ![Register](screenshots/register.png) |
